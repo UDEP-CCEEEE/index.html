@@ -2,8 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-
-<!-- 🔥 CLAVE PARA CELULAR -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b141a">
 
@@ -26,7 +24,6 @@ body {
   flex-direction: column;
 }
 
-/* HEADER */
 #header {
   background: #202c33;
   color: white;
@@ -35,14 +32,12 @@ body {
   font-size: 14px;
 }
 
-/* CHAT */
 #chat {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
 }
 
-/* MENSAJES */
 .msg {
   max-width: 75%;
   margin: 5px 0;
@@ -75,7 +70,6 @@ body {
   color: #53bdeb;
 }
 
-/* BOTONES */
 .btn {
   display: block;
   width: 100%;
@@ -88,7 +82,6 @@ body {
   cursor: pointer;
 }
 
-/* INPUT FIJO */
 #inputArea {
   display: flex;
   background: #202c33;
@@ -112,7 +105,6 @@ button {
   padding: 12px;
 }
 
-/* ESCRIBIENDO */
 .typing {
   font-size: 12px;
   opacity: 0.7;
@@ -123,7 +115,6 @@ button {
 
 <body>
 
-<!-- 🔊 SONIDO -->
 <audio id="sonido">
   <source src="https://www.soundjay.com/buttons/sounds/button-3.mp3" type="audio/mpeg">
 </audio>
@@ -146,7 +137,6 @@ button {
 <script>
 const chat = document.getElementById("chat");
 
-// 🔊 SONIDO
 function reproducirSonido() {
   const audio = document.getElementById("sonido");
   if (audio) {
@@ -155,17 +145,14 @@ function reproducirSonido() {
   }
 }
 
-// 🕒 HORA
 function hora() {
   const d = new Date();
   return d.getHours().toString().padStart(2,'0') + ":" +
          d.getMinutes().toString().padStart(2,'0');
 }
 
-// 💬 MENSAJES
 function mensajeBot(texto) {
   reproducirSonido();
-
   const div = document.createElement("div");
   div.className = "msg bot";
   div.innerHTML = texto + `<div class="time">${hora()}</div>`;
@@ -181,7 +168,6 @@ function mensajeUser(texto) {
   chat.scrollTop = chat.scrollHeight;
 }
 
-// ✨ ESCRIBIENDO
 function typingOn() {
   const div = document.createElement("div");
   div.className = "typing";
@@ -195,7 +181,6 @@ function typingOff() {
   if (t) t.remove();
 }
 
-// 🔘 BOTONES
 function crearBoton(texto, valor) {
   const btn = document.createElement("button");
   btn.className = "btn";
@@ -226,7 +211,6 @@ function opciones() {
   crearBoton("No", "no");
 }
 
-// 🔁 LÓGICA
 function manejar(t) {
   mensajeUser(t);
   responder(t.toLowerCase());
@@ -271,7 +255,9 @@ function responder(t) {
     }
 
     else if (t === "4") {
-      mensajeBot("📄 Link de exámenes disponible.\n¿Otra opción?");
+      mensajeBot(`📄 Ver exámenes aquí:<br>
+<a href="https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug" target="_blank" style="color:#00a884;">👉 Abrir enlace</a>
+<br><br>¿Otra opción?`);
       opciones();
     }
 
