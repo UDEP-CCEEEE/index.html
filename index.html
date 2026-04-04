@@ -218,16 +218,16 @@ function responder(t){
   }
 
   else if(t==="4"){
-    bot("📄 Exámenes:");
+  bot("📄 Exámenes disponibles:");
 
-    const link=document.createElement("button");
-    link.className="btn";
-    link.innerText="👉 Abrir enlace";
-    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
-    chat.appendChild(link);
+  const link=document.createElement("button");
+  link.className="btn";
+  link.innerText="🔗 Link aquí";
+  link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+  chat.appendChild(link);
 
-    opciones();
-  }
+  opciones();
+}
 
   else if(t==="si"){
     menu();
