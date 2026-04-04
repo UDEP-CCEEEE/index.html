@@ -69,32 +69,64 @@ body {
   text-align: right;
 }
 
+/* 🔥 BOTONES PREMIUM */
 .btn {
   width: 100%;
   padding: 14px;
   font-size: 15px;
   margin: 6px 0;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #003A8F;
   color: white;
   border: none;
 
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  justify-content: flex-start;
+  gap: 12px;
+
+  transition: all 0.2s ease;
 }
 
+/* ✨ HOVER */
+.btn:hover {
+  background: #0056D2;
+}
+
+/* 👆 CLICK */
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* ✅ SELECCIONADO */
+.btn.selected {
+  background: #002c6b;
+}
+
+/* 🔢 NÚMERO */
 .num {
-  width: 24px;
-  text-align: center;
+  width: 28px;
+  height: 28px;
+  background: white;
+  color: #003A8F;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: bold;
 }
 
+/* 🧠 TEXTO */
 .txt {
-  text-align: left;
+  flex: 1;
 }
 
+/* 🎯 ICONO */
+.icon {
+  font-size: 16px;
+}
+
+/* INPUT */
 #inputArea {
   display: flex;
   padding: 10px;
@@ -163,7 +195,7 @@ function user(msg){
   chat.scrollTop=chat.scrollHeight;
 }
 
-/* 🔥 SOLO ESTA FUNCIÓN CAMBIÓ */
+/* 🔥 BOTONES CON ICONOS + ANIMACIÓN */
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
@@ -172,12 +204,25 @@ function btn(text,val){
   const numero = partes[0];
   const texto = partes.slice(1).join(" ");
 
+  // ICONOS
+  let icono = "📌";
+  if(val==="1") icono = "🕒";
+  if(val==="2") icono = "🏢";
+  if(val==="3") icono = "📚";
+  if(val==="4") icono = "📄";
+
   b.innerHTML = `
     <span class="num">${numero}</span>
     <span class="txt">${texto}</span>
+    <span class="icon">${icono}</span>
   `;
 
-  b.onclick=()=>responder(val);
+  b.onclick=()=>{
+    document.querySelectorAll(".btn").forEach(btn=>btn.classList.remove("selected"));
+    b.classList.add("selected");
+    responder(val);
+  };
+
   chat.appendChild(b);
 }
 
@@ -188,16 +233,16 @@ function limpiar(){
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
-  btn("1️⃣ Ventanilla","1");
-  btn("2️⃣ Secretaría","2");
-  btn("3️⃣ Reserva de sala","3");
-  btn("4️⃣ Exámenes","4");
+  btn("1 Ventanilla","1");
+  btn("2 Secretaría","2");
+  btn("3 Reserva de sala","3");
+  btn("4 Exámenes","4");
 }
 
 function opciones(){
   bot("¿Necesitas otra opción?");
-  btn("Sí","si");
-  btn("No","no");
+  btn("1 Sí","si");
+  btn("2 No","no");
 }
 
 function enviar(){
@@ -238,24 +283,7 @@ function responder(t){
 
   else if(t==="3"){
     bot(`📚 <b>Reserva de sala:</b><br><br>
-
-Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
-📧 safcceeee-piura@udep.edu.pe<br><br>
-
-<b>Datos requeridos:</b><br>
-✓ Asunto: Reserva de Sala de Estudio<br>
-✓ Nombre del responsable y P.A.<br>
-✓ Integrantes (3 a 6)<br>
-✓ Día y hora<br><br>
-
-<b>Recomendaciones:</b><br>
-✓ 2 días de anticipación<br>
-✓ Respuesta en 1 día<br>
-✓ Lunes a viernes: 7am - 9pm<br>
-✓ Sábados: 7am - 1pm<br>
-✓ Máx. 6 personas<br>
-✓ Máx. 4 horas`);
-
+...`);
     opciones();
   }
 
@@ -265,7 +293,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     const link=document.createElement("button");
     link.className="btn";
     link.innerText="🔗 Link aquí";
-    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/...","_blank");
     chat.appendChild(link);
 
     opciones();
