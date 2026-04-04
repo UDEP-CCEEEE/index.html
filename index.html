@@ -14,7 +14,6 @@ body {
   background: #F5F7FA;
 }
 
-/* CONTENEDOR */
 #app {
   max-width: 420px;
   height: 100vh;
@@ -27,21 +26,19 @@ body {
 /* HEADER */
 #header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
-  background: white;
+  align-items: center;
+  padding: 10px;
   border-bottom: 1px solid #ddd;
 }
 
 .logo-left {
-  width: 110px;
+  width: 100px;
 }
 
-.logo-right {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
+.header-text {
+  font-weight: 500;
+  color: #003A8F;
 }
 
 /* CHAT */
@@ -55,9 +52,10 @@ body {
 .msg {
   max-width: 75%;
   padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
+  margin: 6px 0;
+  border-radius: 12px;
   font-size: 14px;
+  position: relative;
 }
 
 .bot {
@@ -70,15 +68,23 @@ body {
   margin-left: auto;
 }
 
+/* HORA */
+.time {
+  font-size: 10px;
+  opacity: 0.6;
+  text-align: right;
+  margin-top: 4px;
+}
+
 /* BOTONES */
 .btn {
   width: 100%;
   padding: 10px;
   margin: 5px 0;
-  border: none;
   border-radius: 8px;
   background: #003A8F;
   color: white;
+  border: none;
   cursor: pointer;
 }
 
@@ -92,17 +98,23 @@ body {
 #input {
   flex: 1;
   padding: 10px;
-  border: none;
   border-radius: 8px;
+  border: none;
 }
 
 button {
   margin-left: 5px;
   padding: 10px;
+  border-radius: 8px;
+  border: none;
   background: #003A8F;
   color: white;
-  border: none;
-  border-radius: 8px;
+}
+
+/* ESCRIBIENDO */
+.typing {
+  font-size: 12px;
+  opacity: 0.6;
 }
 </style>
 </head>
@@ -113,7 +125,7 @@ button {
 
 <div id="header">
   <img class="logo-left" src="https://www.udep.edu.pe/direccion-comunicacion/wp-content/uploads/sites/20/2020/11/LogoUDEPazul.png">
-  <img class="logo-right" src="logo-facultad.png">
+  <div class="header-text">FACULTAD DE EMPRESAS</div>
 </div>
 
 <div id="chat"></div>
@@ -128,20 +140,46 @@ button {
 <script>
 const chat = document.getElementById("chat");
 
+// HORA
+function hora(){
+  const d = new Date();
+  return d.getHours().toString().padStart(2,'0') + ":" +
+         d.getMinutes().toString().padStart(2,'0');
+}
+
+// MENSAJES
 function bot(msg){
   const div=document.createElement("div");
   div.className="msg bot";
-  div.innerText=msg;
+  div.innerHTML = msg + `<div class="time">${hora()}</div>`;
   chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 }
 
 function user(msg){
   const div=document.createElement("div");
   div.className="msg user";
-  div.innerText=msg;
+  div.innerHTML = msg + `<div class="time">${hora()}</div>`;
   chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 }
 
+// ESCRIBIENDO
+function typing(){
+  const div=document.createElement("div");
+  div.className="typing";
+  div.id="typing";
+  div.innerText="Escribiendo...";
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function stopTyping(){
+  const t=document.getElementById("typing");
+  if(t) t.remove();
+}
+
+// BOTONES
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
@@ -154,6 +192,7 @@ function limpiar(){
   document.querySelectorAll(".btn").forEach(b=>b.remove());
 }
 
+// MENÚ
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
@@ -163,6 +202,7 @@ function menu(){
   btn("4️⃣ Exámenes","4");
 }
 
+// ENVIAR
 function enviar(){
   const i=document.getElementById("input");
   const t=i.value.trim();
@@ -172,38 +212,56 @@ function enviar(){
   responder(t.toLowerCase());
 }
 
+// ENTER
+document.getElementById("input").addEventListener("keypress", function(e){
+  if(e.key==="Enter") enviar();
+});
+
+// LÓGICA
 function responder(t){
   limpiar();
+  typing();
 
-  if(t.includes("hola")){
-    bot("Hola 👋 ¿En qué puedo ayudarte?");
-    menu();
-  }
+  setTimeout(()=>{
+    stopTyping();
 
-  else if(t==="1"){
-    bot("Horario ventanilla: 9am - 6:30pm");
-  }
+    if(t.includes("hola")){
+      bot("Hola 👋 ¿En qué puedo ayudarte?");
+      menu();
+    }
 
-  else if(t==="2"){
-    bot("Horario secretaría: 10am - 6pm");
-  }
+    else if(t==="1"){
+      bot("🕒 Ventanilla: 9:00 am - 6:30 pm");
+      menu();
+    }
 
-  else if(t==="3"){
-    bot("Reserva: safcceee-piura@udep.edu.pe");
-  }
+    else if(t==="2"){
+      bot("🕒 Secretaría: 10:00 am - 6:00 pm");
+      menu();
+    }
 
-  else if(t==="4"){
-    bot("Abrir enlace:");
-    const b=document.createElement("button");
-    b.className="btn";
-    b.innerText="👉 Abrir";
-    b.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
-    chat.appendChild(b);
-  }
+    else if(t==="3"){
+      bot("🔗 Reserva: safcceee-piura@udep.edu.pe");
+      menu();
+    }
 
-  else{
-    bot("Escribe 'Hola'");
-  }
+    else if(t==="4"){
+      bot("📄 Exámenes:");
+
+      const b=document.createElement("button");
+      b.className="btn";
+      b.innerText="👉 Abrir enlace";
+      b.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+      chat.appendChild(b);
+
+      menu();
+    }
+
+    else{
+      bot("Escribe 'Hola' 😊");
+    }
+
+  },600);
 }
 </script>
 
