@@ -69,7 +69,7 @@ body {
   text-align: right;
 }
 
-/* 🔥 BOTONES PREMIUM */
+/* BOTONES PREMIUM */
 .btn {
   width: 100%;
   padding: 14px;
@@ -79,31 +79,16 @@ body {
   background: #003A8F;
   color: white;
   border: none;
-
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 12px;
-
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
-/* ✨ HOVER */
-.btn:hover {
-  background: #0056D2;
-}
-
-/* 👆 CLICK */
 .btn:active {
   transform: scale(0.97);
 }
 
-/* ✅ SELECCIONADO */
-.btn.selected {
-  background: #002c6b;
-}
-
-/* 🔢 NÚMERO */
 .num {
   width: 28px;
   height: 28px;
@@ -116,12 +101,10 @@ body {
   font-weight: bold;
 }
 
-/* 🧠 TEXTO */
 .txt {
   flex: 1;
 }
 
-/* 🎯 ICONO */
 .icon {
   font-size: 16px;
 }
@@ -195,7 +178,6 @@ function user(msg){
   chat.scrollTop=chat.scrollHeight;
 }
 
-/* 🔥 BOTONES CON ICONOS + ANIMACIÓN */
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
@@ -204,12 +186,12 @@ function btn(text,val){
   const numero = partes[0];
   const texto = partes.slice(1).join(" ");
 
-  // ICONOS
   let icono = "📌";
-  if(val==="1") icono = "🕒";
-  if(val==="2") icono = "🏢";
-  if(val==="3") icono = "📚";
-  if(val==="4") icono = "📄";
+  if(val==="1") icono="🕒";
+  if(val==="2") icono="🏢";
+  if(val==="3") icono="📚";
+  if(val==="4") icono="📄";
+  if(val==="5") icono="🧭";
 
   b.innerHTML = `
     <span class="num">${numero}</span>
@@ -217,12 +199,7 @@ function btn(text,val){
     <span class="icon">${icono}</span>
   `;
 
-  b.onclick=()=>{
-    document.querySelectorAll(".btn").forEach(btn=>btn.classList.remove("selected"));
-    b.classList.add("selected");
-    responder(val);
-  };
-
+  b.onclick=()=>responder(val);
   chat.appendChild(b);
 }
 
@@ -230,6 +207,7 @@ function limpiar(){
   document.querySelectorAll(".btn").forEach(b=>b.remove());
 }
 
+/* MENÚ PRINCIPAL */
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
@@ -237,6 +215,17 @@ function menu(){
   btn("2 Secretaría","2");
   btn("3 Reserva de sala","3");
   btn("4 Exámenes","4");
+  btn("5 Trámites","tramites");
+}
+
+/* SUBMENÚ TRÁMITES */
+function menuTramites(){
+  limpiar();
+  bot("¿Sobre qué necesitas ayuda?");
+  btn("1 Bachiller / Egresado","egresado");
+  btn("2 Certificados / Documentos","docs");
+  btn("3 Idiomas","idiomas");
+  btn("4 Mesa de ayuda","mesa");
 }
 
 function opciones(){
@@ -248,21 +237,20 @@ function opciones(){
 function enviar(){
   const input = document.getElementById("input");
   const texto = input.value.trim();
-
-  if(texto === "") return;
-
-  input.value = "";
+  if(texto==="") return;
+  input.value="";
   user(texto);
   responder(texto.toLowerCase());
 }
 
-document.getElementById("input").addEventListener("keydown", function(e){
-  if(e.key === "Enter"){
+document.getElementById("input").addEventListener("keydown", e=>{
+  if(e.key==="Enter"){
     e.preventDefault();
     enviar();
   }
 });
 
+/* LÓGICA */
 function responder(t){
   limpiar();
 
@@ -271,47 +259,53 @@ function responder(t){
     menu();
   }
 
-  else if(t==="1"){
-    bot("🕒 Ventanilla: 9:00 am - 6:30 pm");
+  else if(t==="tramites"){
+    menuTramites();
+  }
+
+  else if(t==="egresado"){
+    bot(`🎓 Oficina de Atención al Egresado<br><br>
+👩‍💼 Melissa Coello<br>
+📧 melissa.coello@udep.edu.pe<br>
+📞 Anexo: 3109<br><br>
+
+✓ Cómo tramitar tu bachiller<br>
+✓ Estado de diploma<br>
+✓ Requisitos`);
+
     opciones();
   }
 
-  else if(t==="2"){
-    bot("🕒 Secretaría: 10:00 am - 6:00 pm");
+  else if(t==="docs"){
+    bot(`📄 Documentos Oficiales<br><br>
+📧 documentos.oficiales@udep.edu.pe<br>
+📞 Anexo: 7060<br><br>
+
+✓ Certificados<br>
+✓ Constancias<br>
+✓ Cartas`);
+
     opciones();
   }
 
-  else if(t==="3"){
-  bot(`📚 <b>Reserva de sala:</b><br><br>
+  else if(t==="idiomas"){
+    bot(`🌐 Centro de Idiomas<br><br>
+📧 idiomas@udep.edu.pe<br><br>
 
-Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
-📧 safcceeee-piura@udep.edu.pe<br><br>
+✓ Convalidación de inglés<br>
+✓ Certificados<br>
+✓ Inscripción`);
 
-<b>Datos requeridos:</b><br>
-✓ Asunto: Reserva de Sala de Estudio<br>
-✓ Nombre del responsable y P.A. al que pertenece<br>
-✓ Integrantes (mínimo 3 personas y máximo 6)<br>
-✓ Día - Hora de inicio y culminación<br><br>
+    opciones();
+  }
 
-<b>Recomendaciones:</b><br>
-✓ Mínimo 2 días de anticipación (días hábiles)<br>
-✓ Respuesta en 1 día<br>
-✓ Lunes a viernes: 7:00 a.m. - 9:00 p.m.<br>
-✓ Sábados: 7:00 a.m. - 1:00 p.m.<br>
-✓ Máximo 6 alumnos por sala<br>
-✓ Máximo 4 horas por grupo`);
+  else if(t==="mesa"){
+    bot(`🛠️ Mesa de Ayuda<br><br>
+📧 mesadeayuda@udep.edu.pe<br><br>
 
-  opciones();
-}
-
-  else if(t==="4"){
-    bot("📄 Exámenes disponibles:");
-
-    const link=document.createElement("button");
-    link.className="btn";
-    link.innerText="🔗 Link aquí";
-    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/...","_blank");
-    chat.appendChild(link);
+✓ Cambio de datos<br>
+✓ Desbloqueo de correo<br>
+✓ Acceso SIGA`);
 
     opciones();
   }
@@ -321,7 +315,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
   }
 
   else if(t==="no"){
-    bot("¡Muchas gracias, cuídate! 👋");
+    bot("¡Muchas gracias! 👋");
   }
 
   else{
