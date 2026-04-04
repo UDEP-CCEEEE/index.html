@@ -78,6 +78,21 @@ body {
   background: #003A8F;
   color: white;
   border: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.num {
+  width: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.txt {
+  text-align: left;
 }
 
 #inputArea {
@@ -148,11 +163,11 @@ function user(msg){
   chat.scrollTop=chat.scrollHeight;
 }
 
+/* 🔥 SOLO ESTA FUNCIÓN CAMBIÓ */
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
 
-  // separar número del texto
   const partes = text.split(" ");
   const numero = partes[0];
   const texto = partes.slice(1).join(" ");
@@ -166,23 +181,6 @@ function btn(text,val){
   chat.appendChild(b);
 }
 
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.num {
-  width: 24px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.txt {
-  text-align: left;
-}
-  
 function limpiar(){
   document.querySelectorAll(".btn").forEach(b=>b.remove());
 }
@@ -202,7 +200,6 @@ function opciones(){
   btn("No","no");
 }
 
-/* 🔥 SOLO ESTO SE MODIFICÓ */
 function enviar(){
   const input = document.getElementById("input");
   const texto = input.value.trim();
@@ -214,7 +211,6 @@ function enviar(){
   responder(texto.toLowerCase());
 }
 
-/* 🔥 SOLO ESTO SE MODIFICÓ */
 document.getElementById("input").addEventListener("keydown", function(e){
   if(e.key === "Enter"){
     e.preventDefault();
@@ -241,7 +237,7 @@ function responder(t){
   }
 
   else if(t==="3"){
-  bot(`📚 <b>Reserva de sala:</b><br><br>
+    bot(`📚 <b>Reserva de sala:</b><br><br>
 
 Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 📧 safcceeee-piura@udep.edu.pe<br><br>
@@ -260,8 +256,8 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 ✓ Máx. 6 personas<br>
 ✓ Máx. 4 horas`);
 
-  opciones();
-}
+    opciones();
+  }
 
   else if(t==="4"){
     bot("📄 Exámenes disponibles:");
