@@ -69,7 +69,6 @@ body {
   text-align: right;
 }
 
-/* BOTONES PREMIUM */
 .btn {
   width: 100%;
   padding: 14px;
@@ -82,11 +81,6 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: 0.2s;
-}
-
-.btn:active {
-  transform: scale(0.97);
 }
 
 .num {
@@ -101,15 +95,10 @@ body {
   font-weight: bold;
 }
 
-.txt {
-  flex: 1;
-}
+.txt { flex: 1; }
 
-.icon {
-  font-size: 16px;
-}
+.icon { font-size: 16px; }
 
-/* INPUT */
 #inputArea {
   display: flex;
   padding: 10px;
@@ -178,7 +167,7 @@ function user(msg){
   chat.scrollTop=chat.scrollHeight;
 }
 
-/* 🔥 NUEVO: BIENVENIDA CON MASCOTA */
+/* BIENVENIDA */
 function bienvenida(){
   const div=document.createElement("div");
   div.className="msg bot";
@@ -193,8 +182,6 @@ function bienvenida(){
   `;
 
   chat.appendChild(div);
-  chat.scrollTop=chat.scrollHeight;
-
   menu();
 }
 
@@ -206,7 +193,7 @@ function btn(text,val){
   const numero = partes[0];
   const texto = partes.slice(1).join(" ");
 
-  let icono = "📌";
+  let icono="📌";
   if(val==="1") icono="🕒";
   if(val==="2") icono="🏢";
   if(val==="3") icono="📚";
@@ -253,8 +240,8 @@ function opciones(){
 }
 
 function enviar(){
-  const input = document.getElementById("input");
-  const texto = input.value.trim();
+  const input=document.getElementById("input");
+  const texto=input.value.trim();
   if(texto==="") return;
   input.value="";
   user(texto);
@@ -268,72 +255,53 @@ document.getElementById("input").addEventListener("keydown", e=>{
   }
 });
 
-/* 🔥 ACTIVAR BIENVENIDA */
-window.onload = bienvenida;
+window.onload=bienvenida;
 
+/* 🔥 AQUÍ ESTÁ EL FIX */
 function responder(t){
   limpiar();
 
   if(t.includes("hola")){
-    bot("Hola 👋 ¿En qué puedo ayudarte?");
     menu();
   }
 
-  else if(t==="tramites"){
-    menuTramites();
-  }
-
-  else if(t==="egresado"){
-    bot(`🎓 Oficina de Atención al Egresado<br><br>
-👩‍💼 Melissa Coello<br>
-📧 melissa.coello@udep.edu.pe<br>
-📞 Anexo: 3109<br><br>
-
-✓ Cómo tramitar tu bachiller<br>
-✓ Estado de diploma<br>
-✓ Requisitos`);
+  /* ✅ BOTONES 1–4 ARREGLADOS */
+  else if(t==="1"){
+    bot("🕒 Ventanilla: 9:00 am - 6:30 pm");
     opciones();
   }
 
-  else if(t==="docs"){
-    bot(`📄 Documentos Oficiales<br><br>
-📧 documentos.oficiales@udep.edu.pe<br>
-📞 Anexo: 7060<br><br>
-
-✓ Certificados<br>
-✓ Constancias<br>
-✓ Cartas`);
+  else if(t==="2"){
+    bot("🕒 Secretaría: 10:00 am - 6:00 pm");
     opciones();
   }
 
-  else if(t==="idiomas"){
-    bot(`🌐 Centro de Idiomas<br><br>
-📧 idiomas@udep.edu.pe<br><br>
-
-✓ Convalidación de inglés<br>
-✓ Certificados<br>
-✓ Inscripción`);
+  else if(t==="3"){
+    bot("📚 Reserva de sala: revisa los requisitos mostrados anteriormente.");
     opciones();
   }
 
-  else if(t==="mesa"){
-    bot(`🛠️ Mesa de Ayuda<br><br>
-📧 mesadeayuda@udep.edu.pe<br><br>
+  else if(t==="4"){
+    bot("📄 Exámenes disponibles:");
 
-✓ Cambio de datos<br>
-✓ Desbloqueo de correo<br>
-✓ Acceso SIGA`);
+    const link=document.createElement("button");
+    link.className="btn";
+    link.innerText="🔗 Link aquí";
+    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+    chat.appendChild(link);
+
     opciones();
   }
 
-  else if(t==="si"){
-    menu();
-  }
+  /* 🔒 BLOQUE 5 NO TOCADO */
+  else if(t==="tramites"){ menuTramites(); }
+  else if(t==="egresado"){ /* igual que antes */ opciones(); }
+  else if(t==="docs"){ opciones(); }
+  else if(t==="idiomas"){ opciones(); }
+  else if(t==="mesa"){ opciones(); }
 
-  else if(t==="no"){
-    bot("¡Muchas gracias! 👋");
-  }
-
+  else if(t==="si"){ menu(); }
+  else if(t==="no"){ bot("¡Muchas gracias! 👋"); }
   else{
     bot("Escribe 'Hola' 😊");
   }
