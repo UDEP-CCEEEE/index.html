@@ -73,13 +73,14 @@ body {
 .btn {
   display: block;
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin: 5px 0;
   border: none;
   border-radius: 6px;
   background: #00a884;
   color: white;
   cursor: pointer;
+  font-size: 14px;
 }
 
 #inputArea {
@@ -254,10 +255,20 @@ function responder(t) {
       opciones();
     }
 
+    // 🔥 LINK FUNCIONAL
     else if (t === "4") {
-      mensajeBot(`📄 Ver exámenes aquí:<br>
-<a href="https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug" target="_blank" style="color:#00a884;">👉 Abrir enlace</a>
-<br><br>¿Otra opción?`);
+      mensajeBot("📄 Link de exámenes en ventanilla");
+
+      const btnLink = document.createElement("button");
+      btnLink.className = "btn";
+      btnLink.innerText = "👉 Abrir enlace";
+      btnLink.onclick = () => {
+        window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug", "_blank");
+      };
+
+      chat.appendChild(btnLink);
+
+      mensajeBot("¿Otra opción?");
       opciones();
     }
 
