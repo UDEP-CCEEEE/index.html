@@ -16,7 +16,7 @@ body {
   background: #F5F7FA;
 }
 
-/* CONTENEDOR */
+/* APP */
 #app {
   width: 100%;
   max-width: 420px;
@@ -30,16 +30,30 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* HEADER */
+/* HEADER DOBLE LOGO */
 #header {
   background: white;
-  padding: 10px;
-  text-align: center;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #eee;
 }
 
-#header img {
-  width: 140px;
+.logo-left {
+  width: 110px;
+}
+
+.logo-right {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.header-space {
+  flex: 1;
 }
 
 /* CHAT */
@@ -136,9 +150,13 @@ button {
 
 <div id="app">
 
-<!-- LOGO -->
+<!-- HEADER -->
 <div id="header">
-  <img src="https://www.udep.edu.pe/direccion-comunicacion/wp-content/uploads/sites/20/2020/11/LogoUDEPazul.png">
+  <img class="logo-left" src="https://www.udep.edu.pe/direccion-comunicacion/wp-content/uploads/sites/20/2020/11/LogoUDEPazul.png">
+  
+  <div class="header-space"></div>
+  
+  <img class="logo-right" src="https://scontent.flim1-2.fna.fbcdn.net/v/t39.30808-6/326508116_579383376986374_95116102095036750_n.jpg">
 </div>
 
 <div id="chat"></div>
@@ -248,21 +266,6 @@ function responder(t) {
       menu();
     }
 
-    else if(t==="1"){
-      bot("🕒 Ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:30 pm.\n¿Otra opción?");
-      opciones();
-    }
-
-    else if(t==="2"){
-      bot("🕒 Secretaría: 10:00 am - 1:00 pm y 4:10 pm - 6:00 pm.\n¿Otra opción?");
-      opciones();
-    }
-
-    else if(t==="3"){
-      bot("🔗 Reserva: safcceee-piura@udep.edu.pe\n¿Otra opción?");
-      opciones();
-    }
-
     else if(t==="4"){
       bot("📄 Exámenes:");
       const b=document.createElement("button");
@@ -274,27 +277,9 @@ function responder(t) {
       opciones();
     }
 
-    else if(t==="5"){
-      bot("📞 Anexo: 3113\n¿Otra opción?");
-      opciones();
-    }
-
-    else if(t==="6"){
-      bot("📅 28 abril, 26 mayo, 06 junio.\n¿Otra opción?");
-      opciones();
-    }
-
-    else if(t==="si"){
-      menu();
-    }
-
-    else if(t==="no"||t.includes("gracias")){
-      bot("¡Muchas gracias, cuídate! 👋");
-    }
-
-    else{
-      bot("Escribe 'Hola' 😊");
-    }
+    else if(t==="si") menu();
+    else if(t==="no"||t.includes("gracias")) bot("¡Muchas gracias! 👋");
+    else bot("Escribe 'Hola' 😊");
 
   },700);
 }
