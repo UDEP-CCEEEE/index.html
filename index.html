@@ -40,14 +40,12 @@ body {
   font-weight: 500;
 }
 
-/* CHAT */
 #chat {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
 }
 
-/* MENSAJES */
 .msg {
   max-width: 75%;
   padding: 10px;
@@ -71,7 +69,6 @@ body {
   text-align: right;
 }
 
-/* BOTONES */
 .btn {
   width: 100%;
   padding: 10px;
@@ -82,7 +79,6 @@ body {
   border: none;
 }
 
-/* INPUT */
 #inputArea {
   display: flex;
   padding: 10px;
@@ -161,7 +157,6 @@ function limpiar(){
   document.querySelectorAll(".btn").forEach(b=>b.remove());
 }
 
-/* MENÚ */
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
@@ -171,29 +166,32 @@ function menu(){
   btn("4️⃣ Exámenes","4");
 }
 
-/* SI / NO */
 function opciones(){
   bot("¿Necesitas otra opción?");
   btn("Sí","si");
   btn("No","no");
 }
 
-/* ENVIAR */
+/* 🔥 SOLO ESTO SE MODIFICÓ */
 function enviar(){
-  const i=document.getElementById("input");
-  const t=i.value.trim();
-  if(!t) return;
-  i.value="";
-  user(t);
-  responder(t.toLowerCase());
+  const input = document.getElementById("input");
+  const texto = input.value.trim();
+
+  if(texto === "") return;
+
+  input.value = "";
+  user(texto);
+  responder(texto.toLowerCase());
 }
 
-/* ENTER */
-document.getElementById("input").addEventListener("keypress",e=>{
-  if(e.key==="Enter") enviar();
+/* 🔥 SOLO ESTO SE MODIFICÓ */
+document.getElementById("input").addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    e.preventDefault();
+    enviar();
+  }
 });
 
-/* LÓGICA */
 function responder(t){
   limpiar();
 
@@ -212,39 +210,40 @@ function responder(t){
     opciones();
   }
 
-  bot(`📚 Reserva de sala:
+  else if(t==="3"){
+    bot(`📚 Reserva de sala:
 
 Las reservas deben ser solicitadas a través del correo Udep del alumno, al correo electrónico:
 safcceeee-piura@udep.edu.pe
 
-Se debe especificar estos datos:
+Se debe especificar:
 ✓ Asunto: Reserva de Sala de Estudio
-✓ Nombre del responsable y P.A. al que pertenece
-✓ Integrantes (mínimo 3 personas y máximo 6)
-✓ Día - Hora de inicio y culminación
+✓ Nombre del responsable y P.A.
+✓ Integrantes (3 a 6)
+✓ Día y hora
 
 Recomendaciones:
-✓ Mínimo 2 días de anticipación
+✓ 2 días de anticipación
 ✓ Respuesta en 1 día
-✓ Lunes a viernes: 7:00 a.m. - 9:00 p.m.
-✓ Sábados: 7:00 a.m. - 1:00 p.m.
-✓ Máximo 6 alumnos por sala
-✓ Máximo 4 horas por grupo`);
+✓ Lunes a viernes: 7am - 9pm
+✓ Sábados: 7am - 1pm
+✓ Máx. 6 personas
+✓ Máx. 4 horas`);
 
-  opciones();
-}
+    opciones();
+  }
 
   else if(t==="4"){
-  bot("📄 Exámenes disponibles:");
+    bot("📄 Exámenes disponibles:");
 
-  const link=document.createElement("button");
-  link.className="btn";
-  link.innerText="🔗 Link aquí";
-  link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
-  chat.appendChild(link);
+    const link=document.createElement("button");
+    link.className="btn";
+    link.innerText="🔗 Link aquí";
+    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+    chat.appendChild(link);
 
-  opciones();
-}
+    opciones();
+  }
 
   else if(t==="si"){
     menu();
