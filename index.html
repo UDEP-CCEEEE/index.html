@@ -167,7 +167,7 @@ function menu(){
   bot("Selecciona una opción:");
   btn("1️⃣ Ventanilla","1");
   btn("2️⃣ Secretaría","2");
-  btn("3️⃣ Sala","3");
+  btn("3️⃣ Reserva de sala","3");
   btn("4️⃣ Exámenes","4");
 }
 
@@ -212,10 +212,27 @@ function responder(t){
     opciones();
   }
 
-  else if(t==="3"){
-    bot("🔗 Reserva: safcceee-piura@udep.edu.pe");
-    opciones();
-  }
+  bot(`📚 Reserva de sala:
+
+Las reservas deben ser solicitadas a través del correo Udep del alumno, al correo electrónico:
+safcceeee-piura@udep.edu.pe
+
+Se debe especificar estos datos:
+✓ Asunto: Reserva de Sala de Estudio
+✓ Nombre del responsable y P.A. al que pertenece
+✓ Integrantes (mínimo 3 personas y máximo 6)
+✓ Día - Hora de inicio y culminación
+
+Recomendaciones:
+✓ Mínimo 2 días de anticipación
+✓ Respuesta en 1 día
+✓ Lunes a viernes: 7:00 a.m. - 9:00 p.m.
+✓ Sábados: 7:00 a.m. - 1:00 p.m.
+✓ Máximo 6 alumnos por sala
+✓ Máximo 4 horas por grupo`);
+
+  opciones();
+}
 
   else if(t==="4"){
   bot("📄 Exámenes disponibles:");
