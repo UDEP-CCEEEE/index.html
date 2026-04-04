@@ -23,7 +23,6 @@ body {
   background: white;
 }
 
-/* HEADER */
 #header {
   display: flex;
   justify-content: space-between;
@@ -37,8 +36,8 @@ body {
 }
 
 .header-text {
-  font-weight: 500;
   color: #003A8F;
+  font-weight: 500;
 }
 
 /* CHAT */
@@ -54,8 +53,6 @@ body {
   padding: 10px;
   margin: 6px 0;
   border-radius: 12px;
-  font-size: 14px;
-  position: relative;
 }
 
 .bot {
@@ -68,12 +65,10 @@ body {
   margin-left: auto;
 }
 
-/* HORA */
 .time {
   font-size: 10px;
   opacity: 0.6;
   text-align: right;
-  margin-top: 4px;
 }
 
 /* BOTONES */
@@ -85,7 +80,6 @@ body {
   background: #003A8F;
   color: white;
   border: none;
-  cursor: pointer;
 }
 
 /* INPUT */
@@ -106,15 +100,9 @@ button {
   margin-left: 5px;
   padding: 10px;
   border-radius: 8px;
-  border: none;
   background: #003A8F;
   color: white;
-}
-
-/* ESCRIBIENDO */
-.typing {
-  font-size: 12px;
-  opacity: 0.6;
+  border: none;
 }
 </style>
 </head>
@@ -140,46 +128,27 @@ button {
 <script>
 const chat = document.getElementById("chat");
 
-// HORA
 function hora(){
-  const d = new Date();
-  return d.getHours().toString().padStart(2,'0') + ":" +
-         d.getMinutes().toString().padStart(2,'0');
+  const d=new Date();
+  return d.getHours()+":"+d.getMinutes().toString().padStart(2,'0');
 }
 
-// MENSAJES
 function bot(msg){
   const div=document.createElement("div");
   div.className="msg bot";
-  div.innerHTML = msg + `<div class="time">${hora()}</div>`;
+  div.innerHTML=msg + `<div class="time">${hora()}</div>`;
   chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+  chat.scrollTop=chat.scrollHeight;
 }
 
 function user(msg){
   const div=document.createElement("div");
   div.className="msg user";
-  div.innerHTML = msg + `<div class="time">${hora()}</div>`;
+  div.innerHTML=msg + `<div class="time">${hora()}</div>`;
   chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+  chat.scrollTop=chat.scrollHeight;
 }
 
-// ESCRIBIENDO
-function typing(){
-  const div=document.createElement("div");
-  div.className="typing";
-  div.id="typing";
-  div.innerText="Escribiendo...";
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function stopTyping(){
-  const t=document.getElementById("typing");
-  if(t) t.remove();
-}
-
-// BOTONES
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
@@ -192,7 +161,7 @@ function limpiar(){
   document.querySelectorAll(".btn").forEach(b=>b.remove());
 }
 
-// MENÚ
+/* MENÚ */
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
@@ -202,7 +171,14 @@ function menu(){
   btn("4️⃣ Exámenes","4");
 }
 
-// ENVIAR
+/* SI / NO */
+function opciones(){
+  bot("¿Necesitas otra opción?");
+  btn("Sí","si");
+  btn("No","no");
+}
+
+/* ENVIAR */
 function enviar(){
   const i=document.getElementById("input");
   const t=i.value.trim();
@@ -212,56 +188,58 @@ function enviar(){
   responder(t.toLowerCase());
 }
 
-// ENTER
-document.getElementById("input").addEventListener("keypress", function(e){
+/* ENTER */
+document.getElementById("input").addEventListener("keypress",e=>{
   if(e.key==="Enter") enviar();
 });
 
-// LÓGICA
+/* LÓGICA */
 function responder(t){
   limpiar();
-  typing();
 
-  setTimeout(()=>{
-    stopTyping();
+  if(t.includes("hola")){
+    bot("Hola 👋 ¿En qué puedo ayudarte?");
+    menu();
+  }
 
-    if(t.includes("hola")){
-      bot("Hola 👋 ¿En qué puedo ayudarte?");
-      menu();
-    }
+  else if(t==="1"){
+    bot("🕒 Ventanilla: 9:00 am - 6:30 pm");
+    opciones();
+  }
 
-    else if(t==="1"){
-      bot("🕒 Ventanilla: 9:00 am - 6:30 pm");
-      menu();
-    }
+  else if(t==="2"){
+    bot("🕒 Secretaría: 10:00 am - 6:00 pm");
+    opciones();
+  }
 
-    else if(t==="2"){
-      bot("🕒 Secretaría: 10:00 am - 6:00 pm");
-      menu();
-    }
+  else if(t==="3"){
+    bot("🔗 Reserva: safcceee-piura@udep.edu.pe");
+    opciones();
+  }
 
-    else if(t==="3"){
-      bot("🔗 Reserva: safcceee-piura@udep.edu.pe");
-      menu();
-    }
+  else if(t==="4"){
+    bot("📄 Exámenes:");
 
-    else if(t==="4"){
-      bot("📄 Exámenes:");
+    const link=document.createElement("button");
+    link.className="btn";
+    link.innerText="👉 Abrir enlace";
+    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+    chat.appendChild(link);
 
-      const b=document.createElement("button");
-      b.className="btn";
-      b.innerText="👉 Abrir enlace";
-      b.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
-      chat.appendChild(b);
+    opciones();
+  }
 
-      menu();
-    }
+  else if(t==="si"){
+    menu();
+  }
 
-    else{
-      bot("Escribe 'Hola' 😊");
-    }
+  else if(t==="no"){
+    bot("¡Muchas gracias, cuídate! 👋");
+  }
 
-  },600);
+  else{
+    bot("Escribe 'Hola' 😊");
+  }
 }
 </script>
 
