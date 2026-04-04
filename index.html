@@ -2,6 +2,11 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+
+<!-- 🔥 CLAVE PARA CELULAR -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b141a">
+
 <title>Bot UDEP</title>
 
 <style>
@@ -9,17 +14,16 @@ body {
   margin: 0;
   font-family: Arial;
   background: #111b21;
+  height: 100vh;
+  overflow: hidden;
 }
 
 #app {
-  width: 360px;
-  height: 640px;
-  margin: 20px auto;
+  width: 100%;
+  height: 100vh;
   background: #0b141a;
-  border-radius: 15px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 /* HEADER */
@@ -31,12 +35,11 @@ body {
   font-size: 14px;
 }
 
-/* CHAT SIN IMAGEN */
+/* CHAT */
 #chat {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
-  background: #0b141a;
 }
 
 /* MENSAJES */
@@ -85,15 +88,17 @@ body {
   cursor: pointer;
 }
 
-/* INPUT */
+/* INPUT FIJO */
 #inputArea {
   display: flex;
   background: #202c33;
+  position: sticky;
+  bottom: 0;
 }
 
 #input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: none;
   outline: none;
   background: #2a3942;
@@ -104,7 +109,7 @@ button {
   background: #00a884;
   border: none;
   color: white;
-  padding: 10px;
+  padding: 12px;
 }
 
 /* ESCRIBIENDO */
@@ -118,7 +123,7 @@ button {
 
 <body>
 
-<!-- 🔊 SONIDO (OPCIONAL, NO ROMPE SI FALLA) -->
+<!-- 🔊 SONIDO -->
 <audio id="sonido">
   <source src="https://www.soundjay.com/buttons/sounds/button-3.mp3" type="audio/mpeg">
 </audio>
@@ -141,7 +146,7 @@ button {
 <script>
 const chat = document.getElementById("chat");
 
-// 🔊 SONIDO (seguro)
+// 🔊 SONIDO
 function reproducirSonido() {
   const audio = document.getElementById("sonido");
   if (audio) {
