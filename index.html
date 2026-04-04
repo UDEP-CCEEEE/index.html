@@ -7,7 +7,6 @@
 
 <title>Bot UDEP</title>
 
-<!-- TIPOGRAFÍA -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -17,7 +16,7 @@ body {
   background: #F5F7FA;
 }
 
-/* CONTENEDOR APP */
+/* CONTENEDOR */
 #app {
   width: 100%;
   max-width: 420px;
@@ -26,31 +25,21 @@ body {
   display: flex;
   flex-direction: column;
   background: white;
-  box-shadow: 0 0 20px rgba(0,0,0,0.1);
   border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 /* HEADER */
 #header {
-  background: linear-gradient(135deg, #003A8F, #0056D2);
-  color: white;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  background: white;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
 }
 
 #header img {
-  width: 40px;
-  border-radius: 10px;
-  background: white;
-  padding: 3px;
-}
-
-#header h3 {
-  margin: 0;
-  font-size: 14px;
+  width: 140px;
 }
 
 /* CHAT */
@@ -78,7 +67,7 @@ body {
 }
 
 .user {
-  background: #0056D2;
+  background: #003A8F;
   color: white;
   margin-left: auto;
 }
@@ -88,11 +77,6 @@ body {
   opacity: 0.6;
   text-align: right;
   margin-top: 4px;
-}
-
-.checks {
-  color: #a8d5ff;
-  margin-left: 5px;
 }
 
 /* BOTONES */
@@ -105,9 +89,7 @@ body {
   border-radius: 10px;
   background: #003A8F;
   color: white;
-  font-size: 14px;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .btn:hover {
@@ -154,9 +136,9 @@ button {
 
 <div id="app">
 
+<!-- LOGO -->
 <div id="header">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/UDEP_logo.png/512px-UDEP_logo.png">
-  <h3>Facultad de Empresas - UDEP</h3>
+  <img src="https://www.udep.edu.pe/direccion-comunicacion/wp-content/uploads/sites/20/2020/11/LogoUDEPazul.png">
 </div>
 
 <div id="chat"></div>
@@ -187,6 +169,7 @@ function bot(msg) {
   div.className = "msg bot";
   div.innerHTML = msg + `<div class="time">${hora()}</div>`;
   chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 }
 
 function user(msg) {
@@ -194,6 +177,7 @@ function user(msg) {
   div.className = "msg user";
   div.innerHTML = msg + `<div class="time">${hora()} ✔✔</div>`;
   chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 }
 
 function typing() {
@@ -226,7 +210,7 @@ function menu() {
   bot("Selecciona una opción:");
   btn("1️⃣ Ventanilla","1");
   btn("2️⃣ Secretaría","2");
-  btn("3️⃣ Sala","3");
+  btn("3️⃣ Sala de estudio","3");
   btn("4️⃣ Exámenes","4");
   btn("5️⃣ Anexo","5");
   btn("6️⃣ Fechas","6");
@@ -264,6 +248,21 @@ function responder(t) {
       menu();
     }
 
+    else if(t==="1"){
+      bot("🕒 Ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:30 pm.\n¿Otra opción?");
+      opciones();
+    }
+
+    else if(t==="2"){
+      bot("🕒 Secretaría: 10:00 am - 1:00 pm y 4:10 pm - 6:00 pm.\n¿Otra opción?");
+      opciones();
+    }
+
+    else if(t==="3"){
+      bot("🔗 Reserva: safcceee-piura@udep.edu.pe\n¿Otra opción?");
+      opciones();
+    }
+
     else if(t==="4"){
       bot("📄 Exámenes:");
       const b=document.createElement("button");
@@ -275,10 +274,27 @@ function responder(t) {
       opciones();
     }
 
-    else if(t==="si") menu();
-    else if(t==="no"||t.includes("gracias")) bot("¡Gracias! 👋");
+    else if(t==="5"){
+      bot("📞 Anexo: 3113\n¿Otra opción?");
+      opciones();
+    }
 
-    else bot("Escribe 'Hola' 😊");
+    else if(t==="6"){
+      bot("📅 28 abril, 26 mayo, 06 junio.\n¿Otra opción?");
+      opciones();
+    }
+
+    else if(t==="si"){
+      menu();
+    }
+
+    else if(t==="no"||t.includes("gracias")){
+      bot("¡Muchas gracias, cuídate! 👋");
+    }
+
+    else{
+      bot("Escribe 'Hola' 😊");
+    }
 
   },700);
 }
