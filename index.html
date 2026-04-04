@@ -122,6 +122,30 @@ button {
   color: white;
   border: none;
 }
+
+/* 🔥 SOLO ESTO SE AGREGÓ */
+.despedida {
+  text-align: center;
+  animation: aparecer 0.5s ease;
+}
+
+.despedida img {
+  width: 100px;
+  border-radius: 12px;
+  animation: bounce 1s ease;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-10px); }
+  60% { transform: translateY(5px); }
+  100% { transform: translateY(0); }
+}
 </style>
 </head>
 
@@ -185,200 +209,20 @@ function bienvenida(){
   menu();
 }
 
-function btn(text,val){
-  const b=document.createElement("button");
-  b.className="btn";
+/* 🔥 SOLO ESTO SE MODIFICÓ */
+else if(t==="no"){
+  const div=document.createElement("div");
+  div.className="msg bot despedida";
 
-  const partes = text.split(" ");
-  const numero = partes[0];
-  const texto = partes.slice(1).join(" ");
-
-  let icono="📌";
-  if(val==="1") icono="🕒";
-  if(val==="2") icono="🏢";
-  if(val==="3") icono="📚";
-  if(val==="4") icono="📄";
-  if(val==="5") icono="🧭";
-
-  b.innerHTML = `
-    <span class="num">${numero}</span>
-    <span class="txt">${texto}</span>
-    <span class="icon">${icono}</span>
+  div.innerHTML = `
+    <img src="mascota.png.jfif"><br>
+    <b>¡Muchas gracias, cuídate! 👋</b>
   `;
 
-  b.onclick=()=>responder(val);
-  chat.appendChild(b);
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function limpiar(){
-  document.querySelectorAll(".btn").forEach(b=>b.remove());
-}
-
-function menu(){
-  limpiar();
-  bot("Selecciona una opción:");
-  btn("1 Ventanilla","1");
-  btn("2 Secretaría","2");
-  btn("3 Reserva de sala","3");
-  btn("4 Exámenes","4");
-  btn("5 Trámites","tramites");
-}
-
-function menuTramites(){
-  limpiar();
-  bot("¿Sobre qué necesitas ayuda?");
-  btn("1 Bachiller / Egresado","egresado");
-  btn("2 Certificados / Documentos","docs");
-  btn("3 Idiomas","idiomas");
-  btn("4 Mesa de ayuda","mesa");
-}
-
-function opciones(){
-  bot("¿Necesitas otra opción?");
-  btn("1 Sí","si");
-  btn("2 No","no");
-}
-
-function enviar(){
-  const input=document.getElementById("input");
-  const texto=input.value.trim();
-  if(texto==="") return;
-  input.value="";
-  user(texto);
-  responder(texto.toLowerCase());
-}
-
-document.getElementById("input").addEventListener("keydown", e=>{
-  if(e.key==="Enter"){
-    e.preventDefault();
-    enviar();
-  }
-});
-
-window.onload=bienvenida;
-
-/* 🔥 AQUÍ ESTÁ EL FIX */
-function responder(t){
-  limpiar();
-
-  if(t.includes("hola")){
-    menu();
-  }
-
-  /* ✅ BOTONES 1–4 */
-  else if(t==="1"){
-    bot("🕒 Ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm");
-    opciones();
-  }
-
-  else if(t==="2"){
-    bot("🕒 Secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30");
-    opciones();
-  }
-
-  /* 🔥 FIX: RESERVA COMPLETA */
-  else if(t==="3"){
-    bot(`📚 <b>Reserva de sala:</b><br><br>
-
-Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
-📧 <b style="color:#003A8F;">safcceeee-piura@udep.edu.pe</b>
-
-<b>Datos requeridos:</b><br>
-✓ Asunto: Reserva de Sala de Estudio<br>
-✓ Nombre del responsable y P.A. al que pertenece<br>
-✓ Integrantes (mínimo 3 personas y máximo 6)<br>
-✓ Día - Hora de inicio y culminación<br><br>
-
-<b>Recomendaciones:</b><br>
-✓ Mínimo 2 días hábiles de anticipación<br>
-✓ Respuesta en 1 día<br>
-✓ Lunes a viernes: 7:00 a.m. - 9:00 p.m.<br>
-✓ Sábados: 7:00 a.m. - 1:00 p.m.<br>
-✓ Máximo 4 horas por grupo`);
-
-    opciones();
-  }
-
-  else if(t==="4"){
-    bot("📄 Exámenes disponibles:");
-
-    const link=document.createElement("button");
-    link.className="btn";
-    link.innerText="🔗 Link aquí";
-    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
-    chat.appendChild(link);
-
-    opciones();
-  }
-
-  /* 🔥 FIX: BLOQUE 5 COMPLETO */
-  else if(t==="tramites"){
-    menuTramites();
-  }
-
-  else if(t==="egresado"){
-    bot(`🎓 <b>Oficina de Atención al Egresado</b><br><br>
-
-👩‍💼 Melissa Coello<br>
-📧 <b style="color:#003A8F;">melissa.coello@udep.edu.pe</b><br>
-📞 Anexo: 3109<br><br>
-
-✓ Cómo tramitar tu bachiller<br>
-✓ Estado de tu diploma de bachiller o titulación<br>
-✓ Requisitos para obtener tu diploma`);
-
-    opciones();
-  }
-
-  else if(t==="docs"){
-    bot(`📄 <b>Documentos Oficiales</b><br><br>
-
-📧 <b style="color:#003A8F;">documentos.oficiales@udep.edu.pe</b>
-📞 Anexo: 7060<br><br>
-
-✓ Certificado de estudios universitarios<br>
-✓ Constancias<br>
-✓ Carta de presentación`);
-
-    opciones();
-  }
-
-  else if(t==="idiomas"){
-    bot(`🌐 <b>Centro de Idiomas</b><br><br>
-
-📧 <b style="color:#003A8F;">idiomas@udep.edu.pe</b><br>
-
-✓ Exámenes de convalidación de inglés<br>
-✓ Certificado de nivel de idiomas<br>
-✓ Inscripción a otros idiomas`);
-
-    opciones();
-  }
-
-  else if(t==="mesa"){
-    bot(`🛠️ <b>Mesa de Ayuda</b><br><br>
-
-📧 <b style="color:#003A8F;">mesadeayuda@udep.edu.pe</b>
-
-✓ Actualización de datos<br>
-✓ Desbloqueo de correo<br>
-✓ Error de acceso al SIGA`);
-
-    opciones();
-  }
-
-  else if(t==="si"){
-    menu();
-  }
-
-  else if(t==="no"){
-    bot("¡Muchas gracias, cuídate! 👋");
-  }
-
-  else{
-    bot("Escribe 'Hola' 😊");
-  }
-}
 </script>
 
 </body>
