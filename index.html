@@ -151,11 +151,38 @@ function user(msg){
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
-  b.innerText=text;
+
+  // separar número del texto
+  const partes = text.split(" ");
+  const numero = partes[0];
+  const texto = partes.slice(1).join(" ");
+
+  b.innerHTML = `
+    <span class="num">${numero}</span>
+    <span class="txt">${texto}</span>
+  `;
+
   b.onclick=()=>responder(val);
   chat.appendChild(b);
 }
 
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.num {
+  width: 24px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.txt {
+  text-align: left;
+}
+  
 function limpiar(){
   document.querySelectorAll(".btn").forEach(b=>b.remove());
 }
