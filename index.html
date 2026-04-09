@@ -241,11 +241,11 @@ function limpiar(){
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
-  btn("1 Ventanilla","1");
-  btn("2 Secretaría","2");
-  btn("3 Reserva de sala","3");
-  btn("4 Exámenes","4");
-  btn("5 Trámites","tramites");
+  btn("1 Horario de atención en ventanilla","1");
+  btn("2 Horario de atención en secretaría","2");
+  btn("3 Cómo reservar sala de estudio","3");
+  btn("4 Publicación de exámenes","4");
+  btn("5 Información sobre tramites");
 }
 
 function menuTramites(){
@@ -289,12 +289,12 @@ function responder(t){
   }
 
   else if(t==="1"){
-    bot("🕒 Ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm");
+    bot("🕒 Horario de atención en ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm");
     opciones();
   }
 
   else if(t==="2"){
-    bot("🕒 Secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30");
+    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30");
     opciones();
   }
 
@@ -334,8 +334,8 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 📧 <b style="color:#003A8F;">melissa.coello@udep.edu.pe</b><br>
 📞 Anexo: 3109<br><br>
 ✓ Cómo tramitar tu bachiller<br>
-✓ Estado de tu diploma<br>
-✓ Requisitos`);
+✓ Estado de tu diploma o título<br>
+✓ Requisitos para sacar mi grado`);
     opciones();
   }
 
@@ -343,27 +343,27 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     bot(`📄 <b>Documentos Oficiales</b><br><br>
 📧 <b style="color:#003A8F;">documentos.oficiales@udep.edu.pe</b><br>
 📞 Anexo: 7060<br><br>
-✓ Certificados<br>
-✓ Constancias<br>
-✓ Cartas`);
+✓ Certificados de estudio universitarios<br>
+✓ Constancias o historiales académicos<br>
+✓ Carta de presentación`);
     opciones();
   }
 
   else if(t==="idiomas"){
     bot(`🌐 <b>Centro de Idiomas</b><br><br>
 📧 <b style="color:#003A8F;">idiomas@udep.edu.pe</b><br>
-✓ Exámenes<br>
-✓ Certificados<br>
-✓ Inscripción`);
+✓ Exámenes de convalidación<br>
+✓ Certificados internacional<br>
+✓ Inscripción a otros idiomas`);
     opciones();
   }
 
   else if(t==="mesa"){
     bot(`🛠️ <b>Mesa de Ayuda</b><br><br>
 📧 <b style="color:#003A8F;">mesadeayuda@udep.edu.pe</b><br>
-✓ Actualización de datos<br>
-✓ Desbloqueo<br>
-✓ SIGA`);
+✓ Actualización de datos (cambio de número)<br>
+✓ Desbloqueo de correo<br>
+✓ Problemas con mi SIGA`);
     opciones();
   }
 
