@@ -8,163 +8,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #F5F7FA;
-}
-
-#app {
-  max-width: 420px;
-  height: 100vh;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  background: white;
-}
-
-#header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.logo-left {
-  width: 100px;
-}
-
-.header-text {
-  color: #003A8F;
-  font-weight: 500;
-}
-
-#chat {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-}
-
-.msg {
-  max-width: 75%;
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 12px;
-}
-
-.bot {
-  background: #eee;
-}
-
-.user {
-  background: #003A8F;
-  color: white;
-  margin-left: auto;
-}
-
-.time {
-  font-size: 10px;
-  opacity: 0.6;
-  text-align: right;
-}
-
-.btn {
-  width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  margin: 6px 0;
-  border-radius: 12px;
-  background: #003A8F;
-  color: white;
-  border: none;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.num {
-  width: 28px;
-  height: 28px;
-  background: white;
-  color: #003A8F;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.txt { flex: 1; }
-
+body { margin: 0; font-family: 'Poppins', sans-serif; background: #F5F7FA; }
+#app { max-width: 420px; height: 100vh; margin: auto; display: flex; flex-direction: column; background: white; }
+#header { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; }
+.logo-left { width: 100px; }
+.header-text { color: #003A8F; font-weight: 500; }
+#chat { flex: 1; padding: 10px; overflow-y: auto; }
+.msg { max-width: 75%; padding: 10px; margin: 6px 0; border-radius: 12px; }
+.bot { background: #eee; }
+.user { background: #003A8F; color: white; margin-left: auto; }
+.time { font-size: 10px; opacity: 0.6; text-align: right; }
+.btn { width: 100%; padding: 14px; font-size: 15px; margin: 6px 0; border-radius: 12px; background: #003A8F; color: white; border: none; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.num { width: 28px; height: 28px; background: white; color: #003A8F; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.txt { flex: 1; text-align: left; }
 .icon { font-size: 16px; }
+#inputArea { display: flex; padding: 10px; background: #eee; }
+#input { flex: 1; padding: 14px; font-size: 15px; border-radius: 10px; border: none; }
+button.send { margin-left: 5px; padding: 14px; font-size: 16px; border-radius: 10px; background: #003A8F; color: white; border: none; cursor: pointer; }
 
-#inputArea {
-  display: flex;
-  padding: 10px;
-  background: #eee;
-}
-
-#input {
-  flex: 1;
-  padding: 14px;
-  font-size: 15px;
-  border-radius: 10px;
-  border: none;
-}
-
-button {
-  margin-left: 5px;
-  padding: 14px;
-  font-size: 16px;
-  border-radius: 10px;
-  background: #003A8F;
-  color: white;
-  border: none;
-}
-
-/* 🔥 NUEVO: DESPEDIDA ANIMADA */
-.despedida {
-  text-align: center;
-  animation: aparecer 0.5s ease;
-}
-
-.despedida img {
-  width: 100px;
-  border-radius: 12px;
-  animation: bounce 1s ease;
-}
-
-@keyframes aparecer {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes bounce {
-  0% { transform: translateY(0); }
-  30% { transform: translateY(-10px); }
-  60% { transform: translateY(5px); }
-  100% { transform: translateY(0); }
-}
+/* ANIMACIÓN */
+.despedida { text-align: center; animation: aparecer 0.5s ease; }
+.despedida img { width: 100px; border-radius: 12px; animation: bounce 1s ease; }
+@keyframes aparecer { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
 </style>
 </head>
 
 <body>
-
 <div id="app">
-
-<div id="header">
-  <img class="logo-left" src="https://www.udep.edu.pe/direccion-comunicacion/wp-content/uploads/sites/20/2020/11/LogoUDEPazul.png">
-  <div class="header-text">CC.EE.EE</div>
-</div>
-
-<div id="chat"></div>
-
-<div id="inputArea">
-  <input id="input" placeholder="Escribe un mensaje">
-  <button onclick="enviar()">➤</button>
-</div>
-
+  <div id="header">
+    <img class="logo-left" src="https://www.udep.edu.pe/direccion-comunicacion/wp-content/uploads/sites/20/2020/11/LogoUDEPazul.png">
+    <div class="header-text">CC.EE.EE</div>
+  </div>
+  <div id="chat"></div>
+  <div id="inputArea">
+    <input id="input" placeholder="Escribe un mensaje">
+    <button class="send" onclick="enviar()">➤</button>
+  </div>
 </div>
 
 <script>
@@ -191,20 +71,10 @@ function user(msg){
   chat.scrollTop=chat.scrollHeight;
 }
 
-/* BIENVENIDA */
 function bienvenida(){
   const div=document.createElement("div");
   div.className="msg bot";
-
-  div.innerHTML = `
-    <div style="text-align:center">
-      <img src="mascota.png.jfif" style="width:120px; border-radius:12px; margin-bottom:10px;">
-      <br>
-      <b>Hola 👋</b><br>
-      ¿En qué puedo ayudarte?
-    </div>
-  `;
-
+  div.innerHTML = `<div style="text-align:center"><img src="mascota.png.jfif" style="width:120px; border-radius:12px; margin-bottom:10px;"><br><b>Hola 👋</b><br>¿En qué puedo ayudarte?</div>`;
   chat.appendChild(div);
   menu();
 }
@@ -212,7 +82,6 @@ function bienvenida(){
 function btn(text,val){
   const b=document.createElement("button");
   b.className="btn";
-
   const partes = text.split(" ");
   const numero = partes[0];
   const texto = partes.slice(1).join(" ");
@@ -221,15 +90,11 @@ function btn(text,val){
   if(val==="1") icono="🕒";
   if(val==="2") icono="🏢";
   if(val==="3") icono="📚";
-  if(val==="4") icono="📄";
-  if(val==="5") icono="🧭";
+  if(val==="4") icono="📅";
+  if(val==="tramites") icono="🧭";
+  if(val==="guias") icono="📂";
 
-  b.innerHTML = `
-    <span class="num">${numero}</span>
-    <span class="txt">${texto}</span>
-    <span class="icon">${icono}</span>
-  `;
-
+  b.innerHTML = `<span class="num">${numero}</span><span class="txt">${texto}</span><span class="icon">${icono}</span>`;
   b.onclick=()=>responder(val);
   chat.appendChild(b);
 }
@@ -241,11 +106,12 @@ function limpiar(){
 function menu(){
   limpiar();
   bot("Selecciona una opción:");
-  btn("1 Horario de atención en ventanilla","1");
-  btn("2 Horario de atención en secretaría","2");
-  btn("3 Cómo reservar sala de estudio","3");
-  btn("4 Publicación de exámenes","4");
-  btn("5 Información sobre tramites");
+  btn("1 Horario ventanilla","1");
+  btn("2 Horario secretaría","2");
+  btn("3 Reserva de sala","3");
+  btn("4 Calendario / Exámenes","4");
+  btn("5 Trámites","tramites");
+  btn("6 Guías y Documentos PDF","guias");
 }
 
 function menuTramites(){
@@ -255,6 +121,16 @@ function menuTramites(){
   btn("2 Certificados / Documentos","docs");
   btn("3 Idiomas","idiomas");
   btn("4 Mesa de ayuda","mesa");
+}
+
+function menuGuias(){
+  limpiar();
+  bot("📂 <b>Documentos y Guías PDF:</b>");
+  btn("1 Prácticas Pre Profesionales", "pdf_practicas");
+  btn("2 Presentación de CLC", "pdf_clc");
+  btn("3 Justificación de Inasistencias", "pdf_inasistencias");
+  btn("4 Reprogramación de Exámenes", "pdf_repro");
+  btn("5 Volver al menú", "si");
 }
 
 function opciones(){
@@ -272,122 +148,53 @@ function enviar(){
   responder(texto.toLowerCase());
 }
 
-document.getElementById("input").addEventListener("keydown", e=>{
-  if(e.key==="Enter"){
-    e.preventDefault();
-    enviar();
-  }
-});
+document.getElementById("input").addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); enviar(); } });
 
 window.onload=bienvenida;
 
 function responder(t){
   limpiar();
 
-  if(t.includes("hola")){
-    menu();
-  }
-
-  else if(t==="1"){
-    bot("🕒 Horario de atención en ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm");
-    opciones();
-  }
-
-  else if(t==="2"){
-    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30");
-    opciones();
-  }
-
+  if(t.includes("hola")){ menu(); }
+  else if(t==="1"){ bot("🕒 Ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm"); opciones(); }
+  else if(t==="2"){ bot("🕒 Secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30"); opciones(); }
   else if(t==="3"){
-    bot(`📚 <b>Reserva de sala:</b><br><br>
-Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
-📧 <b style="color:#003A8F;">safcceeee-piura@udep.edu.pe</b><br>
-<b>Datos requeridos:</b><br>
-✓ Asunto: Reserva de Sala de Estudio<br>
-✓ Nombre del responsable y P.A. al que pertenece<br>
-✓ Integrantes (mínimo 3 personas y máximo 6)<br>
-✓ Día - Hora de inicio y culminación<br><br>
-<b>Recomendaciones:</b><br>
-✓ Mínimo 2 días hábiles de anticipación<br>
-✓ Respuesta en 1 día<br>
-✓ Lunes a viernes: 7:00 a.m. - 9:00 p.m.<br>
-✓ Sábados: 7:00 a.m. - 1:00 p.m.<br>
-✓ Máximo 4 horas por grupo`);
+    bot(`📚 <b>Reserva de sala:</b><br><br>Enviar correo a:<br>📧 <b>safcceeee-piura@udep.edu.pe</b><br>✓ Mínimo 3 personas<br>✓ Máximo 4 horas`);
     opciones();
   }
-
   else if(t==="4"){
-    bot("📄 Exámenes disponibles:");
-    const link=document.createElement("button");
-    link.className="btn";
-    link.innerText="🔗 Link aquí";
-    link.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
-    chat.appendChild(link);
+    bot("📄 <b>Calendario y Exámenes:</b>");
+    const b1=document.createElement("button"); b1.className="btn"; b1.innerText="🔗 Rol de Exámenes";
+    b1.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:x:/g/personal/rosamaria_masias_udep_edu_pe/EWihxMsRb25Iuvkhp9RDLj0Bo7taaxBWoC3Zp5dMNehltQ?rtime=SpHsHsNV3Ug","_blank");
+    chat.appendChild(b1);
+    const b2=document.createElement("button"); b2.className="btn"; b2.innerText="📅 Calendario Académico";
+    b2.onclick=()=>window.open("TU_LINK_CALENDARIO_PDF","_blank");
+    chat.appendChild(b2);
     opciones();
   }
-
   else if(t==="tramites"){ menuTramites(); }
+  else if(t==="guias"){ menuGuias(); }
+  
+  /* CASOS PDF */
+  else if(t==="pdf_practicas"){ window.open("TU_LINK_PRACTICAS_PDF", "_blank"); opciones(); }
+  else if(t==="pdf_clc"){ window.open("TU_LINK_CLC_PDF", "_blank"); opciones(); }
+  else if(t==="pdf_inasistencias"){ window.open("TU_LINK_INASISTENCIAS_PDF", "_blank"); opciones(); }
+  else if(t==="pdf_repro"){ window.open("TU_LINK_REPRO_PDF", "_blank"); opciones(); }
 
-  else if(t==="egresado"){
-    bot(`🎓 <b>Oficina de Atención al Egresado</b><br><br>
-👩‍💼 Melissa Coello<br>
-📧 <b style="color:#003A8F;">melissa.coello@udep.edu.pe</b><br>
-📞 Anexo: 3109<br><br>
-✓ Cómo tramitar tu bachiller<br>
-✓ Estado de tu diploma o título<br>
-✓ Requisitos para sacar mi grado`);
-    opciones();
-  }
-
-  else if(t==="docs"){
-    bot(`📄 <b>Documentos Oficiales</b><br><br>
-📧 <b style="color:#003A8F;">documentos.oficiales@udep.edu.pe</b><br>
-📞 Anexo: 7060<br><br>
-✓ Certificados de estudio universitarios<br>
-✓ Constancias o historiales académicos<br>
-✓ Carta de presentación`);
-    opciones();
-  }
-
-  else if(t==="idiomas"){
-    bot(`🌐 <b>Centro de Idiomas</b><br><br>
-📧 <b style="color:#003A8F;">idiomas@udep.edu.pe</b><br>
-✓ Exámenes de convalidación<br>
-✓ Certificados internacional<br>
-✓ Inscripción a otros idiomas`);
-    opciones();
-  }
-
-  else if(t==="mesa"){
-    bot(`🛠️ <b>Mesa de Ayuda</b><br><br>
-📧 <b style="color:#003A8F;">mesadeayuda@udep.edu.pe</b><br>
-✓ Actualización de datos (cambio de número)<br>
-✓ Desbloqueo de correo<br>
-✓ Problemas con mi SIGA`);
-    opciones();
-  }
-
-  /* 🔥 DESPEDIDA ANIMADA */
+  else if(t==="egresado"){ bot("🎓 <b>Egresados:</b><br>📧 melissa.coello@udep.edu.pe"); opciones(); }
+  else if(t==="docs"){ bot("📄 <b>Documentos:</b><br>📧 documentos.oficiales@udep.edu.pe"); opciones(); }
+  else if(t==="idiomas"){ bot("🌐 <b>Idiomas:</b><br>📧 idiomas@udep.edu.pe"); opciones(); }
+  else if(t==="mesa"){ bot("🛠️ <b>Mesa Ayuda:</b><br>📧 mesadeayuda@udep.edu.pe"); opciones(); }
+  
   else if(t==="no"){
-    const div=document.createElement("div");
-    div.className="msg bot despedida";
-
-    div.innerHTML = `
-      <img src="mascota.png.jfif"><br>
-      <b>¡Muchas gracias, cuídate! 👋</b>
-    `;
-
+    const div=document.createElement("div"); div.className="msg bot despedida";
+    div.innerHTML = `<img src="mascota.png.jfif"><br><b>¡Muchas gracias, cuídate! 👋</b>`;
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
   }
-
   else if(t==="si"){ menu(); }
-
-  else{
-    bot("Escribe 'Hola' 😊");
-  }
+  else { bot("Escribe 'Hola' 😊"); }
 }
 </script>
-
 </body>
 </html>
