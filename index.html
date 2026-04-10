@@ -343,15 +343,20 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
   
   else if(t==="guias"){ menuGuias(); }
 
-  /* CASOS PDF */
+  /* CASOS PDF ACTUALIZADOS */
   else if(t==="pdf_practicas"){ 
     bot("📑 Abriendo documento de <b>Prácticas Pre Profesionales</b>...");
     window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/rosamaria_masias_udep_edu_pe/IQBD4NF30h_jTaPWFhqvLyjsAZ7lpxsg5GuGePn30Ixfk2Q", "_blank"); 
     opciones(); 
   }
   
+  else if(t==="pdf_inasistencias"){ 
+    bot("📑 Abriendo procedimiento de <b>Justificación de Inasistencias</b>...");
+    window.open("https://udepoffice365ms-my.sharepoint.com/my?id=%2Fpersonal%2Flazaro%5Fpurizaca%5Fg%5Fudep%5Fedu%5Fpe%2FDocuments%2FProcedimiento%20para%20justificaci%C3%B3n%20de%20inasistencias%202026%2DI%2Epdf&parent=%2Fpersonal%2Flazaro%5Fpurizaca%5Fg%5Fudep%5Fedu%5Fpe%2FDocuments&ga=1", "_blank"); 
+    opciones(); 
+  }
+  
   else if(t==="pdf_clc"){ window.open("TU_LINK_CLC", "_blank"); opciones(); }
-  else if(t==="pdf_inasistencias"){ window.open("TU_LINK_INASISTENCIAS", "_blank"); opciones(); }
   else if(t==="pdf_repro"){ window.open("TU_LINK_REPRO", "_blank"); opciones(); }
 
   else if(t==="egresado"){
