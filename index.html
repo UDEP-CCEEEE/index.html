@@ -272,11 +272,58 @@ function opciones(){
 
 function enviar(){
   const input=document.getElementById("input");
-  const texto=input.value.trim();
+  const texto=input.value.trim().toLowerCase();
   if(texto==="") return;
   input.value="";
   user(texto);
-  responder(texto.toLowerCase());
+
+  // --- MOTOR DE DETECCIÓN DE PALABRAS CLAVE ---
+
+  // Bachiller / Egresado
+  if(texto.includes("bachiller") || texto.includes("egresado") || texto.includes("titulo") || texto.includes("título") || texto.includes("diploma") || texto.includes("grado")) {
+    responder("egresado");
+  } 
+  // Certificados y Documentos
+  else if(texto.includes("certificado") || texto.includes("constancia") || texto.includes("historial") || texto.includes("carta") || texto.includes("documento")) {
+    responder("docs");
+  }
+  // Reserva de Sala
+  else if(texto.includes("reserva") || texto.includes("sala") || texto.includes("estudiar") || texto.includes("cubiculo") || texto.includes("cubículo")) {
+    responder("3");
+  }
+  // Exámenes y Recojo
+  else if(texto.includes("examen") || texto.includes("parcial") || texto.includes("final") || texto.includes("recojer") || texto.includes("recoger") || texto.includes("calendario") || texto.includes("rol")) {
+    responder("4");
+  }
+  // Justificación de inasistencias
+  else if(texto.includes("falta") || texto.includes("inasistencia") || texto.includes("justificar") || texto.includes("justificacion") || texto.includes("enfermo") || texto.includes("permiso")) {
+    responder("pdf_inasistencias");
+  }
+  // Prácticas Pre Profesionales
+  else if(texto.includes("practica") || texto.includes("práctica") || texto.includes("convenio") || texto.includes("ppp")) {
+    responder("pdf_practicas");
+  }
+  // Idiomas
+  else if(texto.includes("idioma") || texto.includes("ingles") || texto.includes("inglés") || texto.includes("convalidar") || texto.includes("centro de idiomas")) {
+    responder("idiomas");
+  }
+  // Mesa de Ayuda
+  else if(texto.includes("ayuda") || texto.includes("mesa") || texto.includes("siga") || texto.includes("contraseña") || texto.includes("correo") || texto.includes("usuario") || texto.includes("bloqueo") || texto.includes("acceso")) {
+    responder("mesa");
+  }
+  // Horarios
+  else if(texto.includes("horario") || texto.includes("atencion") || texto.includes("atención") || texto.includes("ventanilla") || texto.includes("secretaria")) {
+    bot("Te muestro los horarios de atención:");
+    responder("1"); // Por defecto mostramos ventanilla, pero el menú queda activo
+  }
+  // Saludos
+  else if(texto.includes("hola") || texto.includes("buenos dias") || texto.includes("buenas tardes")) {
+    responder("hola");
+  }
+  // Otros casos (lógica normal por valor de botón)
+  else {
+    responder(texto);
+  }
 }
 
 document.getElementById("input").addEventListener("keydown", e=>{
