@@ -314,7 +314,7 @@ function enviar(){
   // Horarios
   else if(texto.includes("horario") || texto.includes("atencion") || texto.includes("atención") || texto.includes("ventanilla") || texto.includes("secretaria")) {
     bot("Te muestro los horarios de atención:");
-    responder("1"); // Por defecto mostramos ventanilla, pero el menú queda activo
+    responder("1"); // Muestra ventanilla por defecto, pero el menú queda activo
   }
   // Saludos
   else if(texto.includes("hola") || texto.includes("buenos dias") || texto.includes("buenas tardes")) {
@@ -348,7 +348,7 @@ function responder(t){
   }
 
   else if(t==="2"){
-    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30");
+    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 - 5:30<br>📞 Anexo: 3113"); // ANEXO AGREGADO AQUÍ
     opciones();
   }
 
