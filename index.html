@@ -261,7 +261,8 @@ function menuGuias(){
   btn("2 Presentación de CLC", "pdf_clc");
   btn("3 Justificación de Inasistencias", "pdf_inasistencias");
   btn("4 Reprogramación de Exámenes", "pdf_repro");
-  btn("5 Volver al inicio", "si");
+  btn("5 Hoja de Reclamos", "pdf_reclamos"); // OPCIÓN AGREGADA
+  btn("6 Volver al inicio", "si");
 }
 
 function opciones(){
@@ -303,6 +304,10 @@ function enviar(){
   else if(texto.includes("practica") || texto.includes("práctica") || texto.includes("convenio") || texto.includes("ppp")) {
     responder("pdf_practicas");
   }
+  // Reclamos
+  else if(texto.includes("reclamo") || texto.includes("queja") || texto.includes("reclamar")) {
+    responder("pdf_reclamos");
+  }
   // Idiomas
   else if(texto.includes("idioma") || texto.includes("ingles") || texto.includes("inglés") || texto.includes("convalidar") || texto.includes("centro de idiomas")) {
     responder("idiomas");
@@ -314,13 +319,13 @@ function enviar(){
   // Horarios
   else if(texto.includes("horario") || texto.includes("atencion") || texto.includes("atención") || texto.includes("ventanilla") || texto.includes("secretaria")) {
     bot("Te muestro los horarios de atención:");
-    responder("1"); // Muestra ventanilla por defecto, pero el menú queda activo
+    responder("1"); 
   }
   // Saludos
   else if(texto.includes("hola") || texto.includes("buenos dias") || texto.includes("buenas tardes")) {
     responder("hola");
   }
-  // Otros casos (lógica normal por valor de botón)
+  // Otros casos
   else {
     responder(texto);
   }
@@ -348,7 +353,7 @@ function responder(t){
   }
 
   else if(t==="2"){
-    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113"); // ANEXO AGREGADO AQUÍ
+    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113");
     opciones();
   }
 
@@ -390,7 +395,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
   
   else if(t==="guias"){ menuGuias(); }
 
-  /* CASOS PDF ACTUALIZADOS */
+  /* CASOS PDF */
   else if(t==="pdf_practicas"){ 
     bot("📑 Abriendo documento de <b>Prácticas Pre Profesionales</b>...");
     window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/rosamaria_masias_udep_edu_pe/IQBD4NF30h_jTaPWFhqvLyjsAZ7lpxsg5GuGePn30Ixfk2Q", "_blank"); 
@@ -400,6 +405,12 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
   else if(t==="pdf_inasistencias"){ 
     bot("📑 Abriendo procedimiento de <b>Justificación de Inasistencias</b>...");
     window.open("https://udepoffice365ms-my.sharepoint.com/my?id=%2Fpersonal%2Flazaro%5Fpurizaca%5Fg%5Fudep%5Fedu%5Fpe%2FDocuments%2FProcedimiento%20para%20justificaci%C3%B3n%20de%20inasistencias%202026%2DI%2Epdf&parent=%2Fpersonal%2Flazaro%5Fpurizaca%5Fg%5Fudep%5Fedu%5Fpe%2FDocuments&ga=1", "_blank"); 
+    opciones(); 
+  }
+
+  else if(t==="pdf_reclamos"){ 
+    bot("📑 Abriendo <b>Hoja de Reclamos</b>...");
+    window.open("https://udepoffice365ms-my.sharepoint.com/my?viewid=55b51ea1%2D531d%2D426c%2Db2aa%2D297b160a73cf&id=%2Fpersonal%2Flazaro%5Fpurizaca%5Fg%5Fudep%5Fedu%5Fpe%2FDocuments%2FFormato%20de%20reclamo%2Epdf&parent=%2Fpersonal%2Flazaro%5Fpurizaca%5Fg%5Fudep%5Fedu%5Fpe%2FDocuments", "_blank"); 
     opciones(); 
   }
   
