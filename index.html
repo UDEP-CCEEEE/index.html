@@ -136,6 +136,16 @@
     animation: bounce 1s ease;
   }
 
+  /* ESTILO PARA LA FIRMA */
+  .footer-creditos {
+    text-align: center;
+    font-size: 11px;
+    color: #888;
+    padding: 8px 0;
+    background: #eee;
+    border-top: 1px solid #ddd;
+  }
+
   @keyframes aparecer {
     from { opacity: 0; transform: scale(0.8); }
     to { opacity: 1; transform: scale(1); }
@@ -163,6 +173,11 @@
   <div id="inputArea">
     <input id="input" placeholder="Escribe &quot;Hola&quot; para empezar">
     <button class="send-btn" onclick="enviar()">➤</button>
+  </div>
+
+  <!-- SECCIÓN DE CRÉDITO AÑADIDA -->
+  <div class="footer-creditos">
+    Una creación de: Lázaro Purizaca
   </div>
 </div>
 
@@ -410,7 +425,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 
   else if(t==="pdf_reclamos"){ 
     bot("📑 Abriendo <b>Hoja de Reclamos</b>...");
-    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQApyzFylfSHT4PI6uVe40POATy9_WrsoGT8qSS2KcGM3Xk?e=uDcq70", "_blank"); 
+    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQApyzFylfSHT4PI6uVe40POATy9_WrsoGT8qSS2KcGM3Xk?e=47Zyzt", "_blank"); 
     opciones(); 
   }
   
