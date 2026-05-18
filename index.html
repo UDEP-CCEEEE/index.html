@@ -136,7 +136,6 @@
     animation: bounce 1s ease;
   }
 
-  /* ESTILO PARA LA FIRMA */
   .footer-creditos {
     text-align: center;
     font-size: 11px;
@@ -175,7 +174,6 @@
     <button class="send-btn" onclick="enviar()">➤</button>
   </div>
 
-  <!-- SECCIÓN DE CRÉDITO AÑADIDA -->
   <div class="footer-creditos">
     Una creación de: Lázaro Purizaca
   </div>
@@ -293,56 +291,67 @@ function enviar(){
   input.value="";
   user(texto);
 
-  // --- MOTOR DE DETECCIÓN DE PALABRAS CLAVE ---
+  // --- MOTOR COGNITIVO DE CONVERSACIÓN (SIMULACIÓN IA) ---
 
   // Bachiller / Egresado
-  if(texto.includes("bachiller") || texto.includes("egresado") || texto.includes("titulo") || texto.includes("título") || texto.includes("diploma") || texto.includes("grado")) {
-    responder("egresado");
+  if(texto.includes("bachiller") || texto.includes("egresado") || texto.includes("titulo") || texto.includes("título") || texto.includes("diploma") || texto.includes("grado") || texto.includes("egrese")) {
+    bot("Claro, si deseas tramitar tu bachiller o consultar sobre tu condición de egresado, debes comunicarte con la Oficina de Atención al Egresado:");
+    setTimeout(() => responder("egresado"), 600);
   } 
   // Certificados y Documentos
   else if(texto.includes("certificado") || texto.includes("constancia") || texto.includes("historial") || texto.includes("carta") || texto.includes("documento")) {
-    responder("docs");
+    bot("Entendido. Para solicitar certificados, constancias oficiales o historiales académicos, debes escribir al área de Documentos Oficiales:");
+    setTimeout(() => responder("docs"), 600);
   }
   // Reserva de Sala
-  else if(texto.includes("reserva") || texto.includes("sala") || texto.includes("estudiar") || texto.includes("cubiculo") || texto.includes("cubículo")) {
-    responder("3");
+  else if(texto.includes("reserva") || texto.includes("sala") || texto.includes("estudiar") || texto.includes("cubiculo") || texto.includes("cubículo") || texto.includes("separar")) {
+    bot("Por supuesto. Si quieres reservar un cubículo o sala de estudio para trabajar con tu grupo, aquí tienes el procedimiento y los requisitos indispensables:");
+    setTimeout(() => responder("3"), 600);
   }
   // Exámenes y Recojo
   else if(texto.includes("examen") || texto.includes("parcial") || texto.includes("final") || texto.includes("recojer") || texto.includes("recoger") || texto.includes("calendario") || texto.includes("rol")) {
-    responder("4");
+    bot("Aquí tienes el acceso al rol de exámenes disponibles para recoger y el calendario académico:");
+    setTimeout(() => responder("4"), 600);
   }
   // Justificación de inasistencias
   else if(texto.includes("falta") || texto.includes("inasistencia") || texto.includes("justificar") || texto.includes("justificacion") || texto.includes("enfermo") || texto.includes("permiso")) {
-    responder("pdf_inasistencias");
+    bot("Comprendo. Si has faltado a clases y necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
+    setTimeout(() => responder("pdf_inasistencias"), 600);
   }
   // Prácticas Pre Profesionales
   else if(texto.includes("practica") || texto.includes("práctica") || texto.includes("convenio") || texto.includes("ppp")) {
-    responder("pdf_practicas");
+    bot("Perfecto. Te abro el documento informativo sobre los convenios y el trámite de Prácticas Pre Profesionales (PPP):");
+    setTimeout(() => responder("pdf_practicas"), 600);
   }
   // Reclamos
   else if(texto.includes("reclamo") || texto.includes("queja") || texto.includes("reclamar")) {
-    responder("pdf_reclamos");
+    bot("Entendido. Te comparto el enlace directo para que puedas revisar o descargar el formato de la Hoja de Reclamos institucional:");
+    setTimeout(() => responder("pdf_reclamos"), 600);
   }
   // Idiomas
   else if(texto.includes("idioma") || texto.includes("ingles") || texto.includes("inglés") || texto.includes("convalidar") || texto.includes("centro de idiomas")) {
-    responder("idiomas");
+    bot("Con gusto. Para todo lo relacionado con convalidaciones de inglés, exámenes y matrículas, debes contactar al Centro de Idiomas:");
+    setTimeout(() => responder("idiomas"), 600);
   }
   // Mesa de Ayuda
   else if(texto.includes("ayuda") || texto.includes("mesa") || texto.includes("siga") || texto.includes("contraseña") || texto.includes("correo") || texto.includes("usuario") || texto.includes("bloqueo") || texto.includes("acceso")) {
-    responder("mesa");
+    bot("Entiendo el inconveniente. Si tienes problemas de acceso con tu cuenta, correo institucional o la plataforma SIGA, comunícate con la Mesa de Ayuda:");
+    setTimeout(() => responder("mesa"), 600);
   }
-  // Horarios
+  // Horarios generales
   else if(texto.includes("horario") || texto.includes("atencion") || texto.includes("atención") || texto.includes("ventanilla") || texto.includes("secretaria")) {
-    bot("Te muestro los horarios de atención:");
-    responder("1"); 
+    bot("Te muestro los horarios de atención presencial de la facultad:");
+    setTimeout(() => responder("1"), 600); 
   }
   // Saludos
-  else if(texto.includes("hola") || texto.includes("buenos dias") || texto.includes("buenas tardes")) {
-    responder("hola");
+  else if(texto.includes("hola") || texto.includes("buenos dias") || texto.includes("buenas tardes") || texto.includes("que tal")) {
+    bot("¡Hola de nuevo! 😊 Cuéntame, ¿en qué te puedo asesorar hoy?");
+    setTimeout(() => menu(), 600);
   }
   // Otros casos
   else {
-    responder(texto);
+    bot("Aún estoy aprendiendo a procesar esa consulta. Por favor, intenta usar frases relacionadas con trámites de la facultad o selecciona una opción del menú:");
+    setTimeout(() => menu(), 600);
   }
 }
 
@@ -481,7 +490,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 
   else if(t==="si"){ menu(); }
 
-  else{
+  else {
     bot("Escribe 'Hola' 😊");
   }
 }
