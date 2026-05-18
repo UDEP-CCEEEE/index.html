@@ -293,8 +293,22 @@ function enviar(){
 
   // --- MOTOR COGNITIVO DE CONVERSACIÓN (SIMULACIÓN IA) ---
 
+  // NUEVO FLUJO: Solo Calendario y Feriados
+  if((texto.includes("calendario") || texto.includes("feriado") || texto.includes("feriados")) && !texto.includes("examen") && !texto.includes("exámenes") && !texto.includes("parcial") && !texto.includes("final")) {
+    bot("Perfecto. Si deseas revisar el Calendario Académico oficial para verificar las semanas lectivas, suspensiones de clases o días feriados del ciclo, aquí tienes el enlace:");
+    setTimeout(() => {
+      limpiar();
+      bot("📅 <b>Calendario Académico:</b>");
+      const b2=document.createElement("button");
+      b2.className="btn";
+      b2.innerHTML="📅 Calendario Académico PDF";
+      b2.onclick=()=>window.open("TU_LINK_CALENDARIO_PDF","_blank");
+      chat.appendChild(b2);
+      opciones();
+    }, 600);
+  }
   // Bachiller / Egresado
-  if(texto.includes("bachiller") || texto.includes("egresado") || texto.includes("titulo") || texto.includes("título") || texto.includes("diploma") || texto.includes("grado") || texto.includes("egrese")) {
+  else if(texto.includes("bachiller") || texto.includes("egresado") || texto.includes("titulo") || texto.includes("título") || texto.includes("diploma") || texto.includes("grado") || texto.includes("egrese")) {
     bot("Claro, si deseas tramitar tu bachiller o consultar sobre tu condición de egresado, debes comunicarte con la Oficina de Atención al Egresado:");
     setTimeout(() => responder("egresado"), 600);
   } 
@@ -308,9 +322,9 @@ function enviar(){
     bot("Por supuesto. Si quieres reservar un cubículo o sala de estudio para trabajar con tu grupo, aquí tienes el procedimiento y los requisitos indispensables:");
     setTimeout(() => responder("3"), 600);
   }
-  // Exámenes y Recojo
-  else if(texto.includes("examen") || texto.includes("parcial") || texto.includes("final") || texto.includes("recojer") || texto.includes("recoger") || texto.includes("calendario") || texto.includes("rol")) {
-    bot("Aquí tienes el acceso al rol de exámenes disponibles para recoger y el calendario académico:");
+  // MODIFICADO: Exámenes y Recojo (Mapea si piden "donde ver exámenes publicados", "EXÁMENES", etc.)
+  else if(texto.includes("examen") || texto.includes("examen") || texto.includes("exámenes") || texto.includes("parcial") || texto.includes("final") || texto.includes("recojer") || texto.includes("recoger") || texto.includes("rol")) {
+    bot("Por supuesto. Aquí tienes el acceso directo al rol oficial para ver los exámenes que ya están publicados y listos para recoger en la facultad:");
     setTimeout(() => responder("4"), 600);
   }
   // Justificación de inasistencias
