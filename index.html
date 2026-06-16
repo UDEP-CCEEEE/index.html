@@ -308,26 +308,26 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Qué necesito para recoger mi examen
-  else if(verificar(["necesito para recoger", "necesito para recojer", "requisito para recoger", "requisitos para recoger", "llevar para recoger", "puedo recoger mi examen", "puedo recojer mi examen"])) {
+  // Flujo Expandido: Qué necesito para recoger mi examen
+  else if(verificar(["necesito para recoger", "necesito para recojer", "requisito para recoger", "requisitos para recoger", "llevar para recoger", "puedo recoger mi examen", "puedo recojer mi examen", "piden para recoger", "retirar mi examen", "entregar mi examen", "enseñar mi siga", "identificacion en fisico"])) {
     bot("Necesitas tu identificación en físico o puedes enseñar tu siga");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Cómo puedo usar las impresoras
-  else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo"])) {
+  // Flujo Expandido: Cómo puedo usar las impresoras
+  else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo", "saca copia", "instrucciones para imprimir", "codigo qr", "código qr", "esta pegada en la pared"])) {
     bot("Hasta donde sé, existen un código QR y unas indicaciones pegadas en la pared, justo donde se encuentra la fotocopiadora");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Cuánto tiempo de tolerancia hay
-  else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "tolerancia para entrar", "cuanto de tolerancia", "cuánto de tolerancia"])) {
+  // Flujo Expandido: Cuánto tiempo de tolerancia hay
+  else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "tolerancia para entrar", "cuanto de tolerancia", "cuánto de tolerancia", "minutos tarde puedo llegar", "tiempo limite", "tiempo límite", "dejan entrar al examen", "rfag", "articulo 37", "artículo 37"])) {
     bot("Según el RFAG, solo existen 15 minutos de tolerancia después de iniciar el examen, o sea que si empieza a las 2:00 p.m, entonces hay tolerancia de 2:15 p.m. (lo encuentras en el artículo 37 inciso 37.2)");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Qué pasa si llego tarde a mi examen
-  else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "no llegue a tiempo"])) {
+  // Flujo Expandido: Qué pasa si llego tarde a mi examen
+  else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "no llegue a tiempo", "quede dormido", "quedé dormido", "no llegue al examen", "falto por enfermedad", "perdi mi examen", "perdí mi examen"])) {
     bot("Depende, si es por salud puedes justificarlo a través de SIGA en la parte de “trámites” y si fue por un descuido, simplemente lo pierdes y lo anulas, debes de tener cuidado y estudiar mucho.");
     setTimeout(() => opciones(), 600);
   }
