@@ -293,13 +293,51 @@ function enviar(){
 
   // --- MOTOR COGNITIVO DE CONVERSACIÓN (SIMULACIÓN IA) ---
 
-  // Pregunta sobre el creador
-  if(texto.includes("creador") || texto.includes("creo") || texto.includes("creó") || texto.includes("dueño") || texto.includes("inventor")) {
+  // Helper para evaluar múltiples palabras clave de nuestro diccionario expandido
+  const verificar = (lista) => lista.some(palabra => texto.includes(palabra));
+
+  // Pregunta sobre el creador / Diseñador / Programador
+  if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "purizaca"])) {
     bot("Mi creador es Lázaro Purizaca, estudió en UDEP como tú");
     setTimeout(() => opciones(), 600);
   }
-  // NUEVO FLUJO: Solo Calendario y Feriados
-  else if((texto.includes("calendario") || texto.includes("feriado") || texto.includes("feriados")) && !texto.includes("examen") && !texto.includes("exámenes") && !texto.includes("parcial") && !texto.includes("final")) {
+  
+  // Flujo: Objetos perdidos / Cosas perdidas en campus
+  else if(verificar(["perdio", "perdió", "perdí", "perdi", "olvide", "olvidé", "busco", "encontre", "encontré", "perdidas", "perdidos", "mochila", "casaca", "objeto", "llaves", "celular", "cartuchera"])) {
+    bot("Depende de la sinceridad de la persona, puede que tu objeto perdido se encuentre en la secretaría académica de la facultad, pero también de ingeniería o en la sala de control que es la puerta blanca.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Flujo Exhaustivo: Solicitud de Correos Electrónicos Directos
+  else if(verificar(["correo", "mail", "email", "escribir a", "escribirle", "contacto de", "direccion de"])) {
+    if(verificar(["secretaria", "secretaría", "academica", "académica", "secre"])) {
+      bot("El correo institucional de <b>Secretaría Académica</b> es:<br>📧 <b style='color:#003A8F;'>secretaria.academica.cceeee@udep.edu.pe</b>");
+    }
+    else if(verificar(["sala", "salas", "cubiculo", "cubículo", "cubis", "safcceeee", "separar", "reserva"])) {
+      bot("El correo para solicitar la <b>Reserva de Salas de Estudio</b> es:<br>📧 <b style='color:#003A8F;'>safcceeee-piura@udep.edu.pe</b>");
+    }
+    else if(verificar(["egresado", "bachiller", "titulo", "título", "grado", "melissa", "coello"])) {
+      bot("El correo de la <b>Oficina de Atención al Egresado</b> es:<br>📧 <b style='color:#003A8F;'>melissa.coello@udep.edu.pe</b>");
+    }
+    else if(verificar(["certificado", "constancia", "historial", "documento", "oficiales", "record", "récord"])) {
+      bot("El correo para solicitar <b>Documentos Oficiales</b> es:<br>📧 <b style='color:#003A8F;'>documentos.oficiales@udep.edu.pe</b>");
+    }
+    else if(verificar(["idioma", "idiomas", "ingles", "inglés", "centro de idiomas"])) {
+      bot("El correo del <b>Centro de Idiomas</b> es:<br>📧 <b style='color:#003A8F;'>idiomas@udep.edu.pe</b>");
+    }
+    else if(verificar(["ayuda", "mesa", "siga", "contraseña", "sistemas", "it", "soporte"])) {
+      bot("El correo de la <b>Mesa de Ayuda</b> de Sistemas es:<br>📧 <b style='color:#003A8F;'>mesadeayuda@udep.edu.pe</b>");
+    }
+    else {
+      bot("¿De qué área específica necesitas el correo? Puedes seleccionar una opción de trámites o guías para visualizar los datos de contacto directos.");
+      setTimeout(() => menu(), 600);
+      return;
+    }
+    setTimeout(() => opciones(), 600);
+  }
+
+  // NUEVO FLUJO: Solo Calendario y Feriados (Evitando cruces con exámenes)
+  else if(verificar(["calendario", "feriado", "feriados", "vacaciones", "descanso", "no hay clase", "lectiva", "lectivas", "suspension", "suspensión", "cronograma"]) && !verificar(["examen", "examenes", "exámenes", "parcial", "final", "rol"])) {
     bot("Perfecto. Si deseas revisar el Calendario Académico oficial para verificar las semanas lectivas, suspensiones de clases o días feriados del ciclo, aquí tienes el enlace:");
     setTimeout(() => {
       limpiar();
@@ -313,59 +351,93 @@ function enviar(){
     }, 600);
   }
   // Bachiller / Egresado
-  else if(texto.includes("bachiller") || texto.includes("egresado") || texto.includes("titulo") || texto.includes("título") || texto.includes("diploma") || texto.includes("grado") || texto.includes("egrese")) {
+  else if(verificar(["bachiller", "egresado", "egresada", "egrese", "egresé", "egresar", "titulo", "título", "titulacion", "titulación", "diploma", "grado", "graduarme", "graduacion", "graduación", "melissa", "coello"])) {
     bot("Claro, si deseas tramitar tu bachiller o consultar sobre tu condición de egresado, debes comunicarte con la Oficina de Atención al Egresado:");
     setTimeout(() => responder("egresado"), 600);
   } 
   // Certificados y Documentos
-  else if(texto.includes("certificado") || texto.includes("constancia") || texto.includes("historial") || texto.includes("carta") || texto.includes("documento")) {
+  else if(verificar(["certificado", "certificados", "constancia", "constancias", "historial", "historiales", "carta", "documento", "documentos", "notas", "record", "récord", "oficiales"])) {
     bot("Entendido. Para solicitar certificados, constancias oficiales o historiales académicos, debes escribir al área de Documentos Oficiales:");
     setTimeout(() => responder("docs"), 600);
   }
-  // Reserva de Sala
-  else if(texto.includes("reserva") || texto.includes("sala") || texto.includes("estudiar") || texto.includes("cubiculo") || texto.includes("cubículo") || texto.includes("separar")) {
+  // Reserva de Sala / Cubículos
+  else if(verificar(["reserva", "reservar", "sala", "salas", "cubiculo", "cubículo", "cubiculos", "cubículos", "cubi", "cubis", "estudiar", "separar", "safcceeee", "ambiente"])) {
     bot("Por supuesto. Si quieres reservar un cubículo o sala de estudio para trabajar con tu grupo, aquí tienes el procedimiento y los requisitos indispensables:");
     setTimeout(() => responder("3"), 600);
   }
-  // MODIFICADO: Exámenes y Recojo (Mapea si piden "donde ver exámenes publicados", "EXÁMENES", etc.)
-  else if(texto.includes("examen") || texto.includes("examen") || texto.includes("exámenes") || texto.includes("parcial") || texto.includes("final") || texto.includes("recojer") || texto.includes("recoger") || texto.includes("rol")) {
+  // Exámenes, Evaluaciones y Roles
+  else if(verificar(["examen", "examenes", "exámenes", "parcial", "parciales", "final", "finales", "recojer", "recoger", "rol", "roles", "fecha de examen", "recojo", "calificada"])) {
     bot("Por supuesto. Aquí tienes el acceso directo al rol oficial para ver los exámenes que ya están publicados y listos para recoger en la facultad:");
     setTimeout(() => responder("4"), 600);
   }
   // Justificación de inasistencias
-  else if(texto.includes("falta") || texto.includes("inasistencia") || texto.includes("justificar") || texto.includes("justificacion") || texto.includes("enfermo") || texto.includes("permiso")) {
+  else if(verificar(["falta", "faltas", "falté", "falte", "inasistencia", "inasistencias", "justificar", "justificacion", "justificación", "enfermo", "enferma", "médico", "medico", "permiso", "descanso", "no asisti", "no asistí"])) {
     bot("Comprendo. Si has faltado a clases y necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
     setTimeout(() => responder("pdf_inasistencias"), 600);
   }
-  // Prácticas Pre Profesionales
-  else if(texto.includes("practica") || texto.includes("práctica") || texto.includes("convenio") || texto.includes("ppp")) {
+  // Prácticas Pre Profesionales (PPP)
+  else if(verificar(["practica", "práctica", "practicas", "prácticas", "convenio", "convenios", "ppp", "pre profesional", "preprofesionales", "pasantia", "pasantía", "empresa"])) {
     bot("Perfecto. Te abro el documento informativo sobre los convenios y el trámite de Prácticas Pre Profesionales (PPP):");
     setTimeout(() => responder("pdf_practicas"), 600);
   }
-  // Reclamos
-  else if(texto.includes("reclamo") || texto.includes("queja") || texto.includes("reclamar")) {
+  // Reclamos / Quejas
+  else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia", "sugerencias", "libro", "reclamaciones"])) {
     bot("Entendido. Te comparto el enlace directo para que puedas revisar o descargar el formato de la Hoja de Reclamos institucional:");
     setTimeout(() => responder("pdf_reclamos"), 600);
   }
-  // Idiomas
-  else if(texto.includes("idioma") || texto.includes("ingles") || texto.includes("inglés") || texto.includes("convalidar") || texto.includes("centro de idiomas")) {
-    bot("Con gusto. Para todo lo relacionado con convalidaciones de inglés, exámenes y matrículas, debes contactar al Centro de Idiomas:");
-    setTimeout(() => responder("idiomas"), 600);
+  // Reprogramación de Exámenes
+  else if(verificar(["reprogramacion", "reprogramación", "reprogramar", "extemporaneo", "extemporáneo", "rezagado", "perdi mi examen", "perdí mi examen"])) {
+    bot("Comprendo. Si no pudiste rendir un examen y requieres gestionar una reprogramación oficial, aquí tienes el enlace directo:");
+    setTimeout(() => responder("pdf_repro"), 600);
   }
-  // Mesa de Ayuda
-  else if(texto.includes("ayuda") || texto.includes("mesa") || texto.includes("siga") || texto.includes("contraseña") || texto.includes("correo") || texto.includes("usuario") || texto.includes("bloqueo") || texto.includes("acceso")) {
+  // Idiomas / CLC
+  else if(verificar(["idioma", "idiomas", "ingles", "inglés", "convalidar", "convalidación", "convalidacion", "centro de idiomas", "clc", "exoneracion"])) {
+    bot("Con gusto. Para todo lo relacionado con convalidaciones de inglés, exámenes y matrículas, debes contactar al Centro de Idiomas:");
+    setTimeout(() => {
+      if (texto.includes("clc") || texto.includes("pdf")) {
+        responder("pdf_clc");
+      } else {
+        responder("idiomas");
+      }
+    }, 600);
+  }
+  // Mesa de Ayuda / Accesos SIGA
+  else if(verificar(["ayuda", "mesa", "siga", "contraseña", "contrasena", "correo", "usuario", "bloqueo", "acceso", "clave", "no puedo entrar", "sistemas", "it", "plataforma"])) {
     bot("Entiendo el inconveniente. Si tienes problemas de acceso con tu cuenta, correo institucional o la plataforma SIGA, comunícate con la Mesa de Ayuda:");
     setTimeout(() => responder("mesa"), 600);
   }
-  // Horarios generales
-  else if(texto.includes("horario") || texto.includes("atencion") || texto.includes("atención") || texto.includes("ventanilla") || texto.includes("secretaria")) {
+  // Horarios generales de atención
+  else if(verificar(["horario", "horarios", "atencion", "atención", "ventanilla", "ventanillas", "secretaria", "secretaría", "secre", "abren", "atienden", "abierto"])) {
     bot("Te muestro los horarios de atención presencial de la facultad:");
-    setTimeout(() => responder("1"), 600); 
+    setTimeout(() => {
+      if (texto.includes("secretaria") || texto.includes("secretaría") || texto.includes("secre")) {
+        responder("2");
+      } else {
+        responder("1");
+      }
+    }, 600); 
+  }
+  // Trámites en general
+  else if(verificar(["tramite", "tramites", "trámite", "trámites", "requisitos de", "como hago", "cómo hago", "gestion", "gestión"])) {
+    bot("Te redirijo a la sección de trámites de la facultad:");
+    setTimeout(() => responder("tramites"), 600);
+  }
+  // Guías y PDFs en general
+  else if(verificar(["guia", "guias", "guía", "guías", "documento", "documentos", "pdf", "descargar", "link", "enlace", "formatos"])) {
+    bot("Te muestro el listado de documentos y guías PDF disponibles:");
+    setTimeout(() => responder("guias"), 600);
   }
   // Saludos
-  else if(texto.includes("hola") || texto.includes("buenos dias") || texto.includes("buenas tardes") || texto.includes("que tal")) {
+  else if(verificar(["hola", "buenos dias", "buenos días", "buenas tardes", "buenas noches", "que tal", "qué tal", "saludos", "jarvis", "oe", "holaa", "aló", "alo"])) {
     bot("¡Hola de nuevo! 😊 Cuéntame, ¿en qué te puedo asesorar hoy?");
     setTimeout(() => menu(), 600);
+  }
+  // Respuestas Directas de Confirmación Sí / No
+  else if(texto === "si" || texto === "sí" || texto === "claro" || texto === "por favor" || texto === "porfa") {
+    responder("si");
+  }
+  else if(texto === "no" || texto === "gracias" || texto === "ya no" || texto === "nada mas" || texto === "nada más" || texto === "chau" || texto === "adios" || texto === "adiós") {
+    responder("no");
   }
   // Otros casos (No entiende)
   else {
@@ -386,7 +458,7 @@ window.onload=bienvenida;
 function responder(t){
   limpiar();
 
-  if(t.includes("hola")){
+  if(t.includes("hola") || t === "si"){
     menu();
   }
 
@@ -457,8 +529,17 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     opciones(); 
   }
   
-  else if(t==="pdf_clc"){ window.open("TU_LINK_CLC", "_blank"); opciones(); }
-  else if(t==="pdf_repro"){ window.open("TU_LINK_REPRO", "_blank"); opciones(); }
+  else if(t==="pdf_clc"){ 
+    bot("📑 Abriendo documento de <b>Presentación de CLC</b>...");
+    window.open("TU_LINK_CLC", "_blank"); 
+    opciones(); 
+  }
+  
+  else if(t==="pdf_repro"){ 
+    bot("📑 Abriendo documento de <b>Reprogramación de Exámenes</b>...");
+    window.open("TU_LINK_REPRO", "_blank"); 
+    opciones(); 
+  }
 
   else if(t==="egresado"){
     bot(`🎓 <b>Oficina de Atención al Egresado</b><br><br>
@@ -506,8 +587,6 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
   }
-
-  else if(t==="si"){ menu(); }
 
   else {
     bot("Escribe 'Hola' 😊");
