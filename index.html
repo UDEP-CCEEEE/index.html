@@ -362,11 +362,30 @@ function enviar(){
     }
   }
 
+  // Si venían hablando de Reclamos de forma general
+  if (contextoGlobal === "preguntando_reclamos") {
+    if (verificar(["fuera de la hora", "fuera de hora", "tarde", "plazo vencido", "vencio el plazo", "paso la hora"])) {
+      bot("No procederá ya que son plazos establecidos.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["segundo", "segundo reclamo", "2do", "apelacion", "apelar"])) {
+      bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["rechazado", "denegado", "rebound", "no pasa", "no procede", "por que"])) {
+      bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primero no pasa.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+  }
+
 
   // 2. INTENCIONES GENERALES (ENTRADA PRINCIPAL)
 
-  // Pregunta sobre el creador
-  if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "purizaca"])) {
+  // Pregunta sobre el creador / Lázaro
+  if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "lázaro", "purizaca"])) {
     bot("Mi creador es Lázaro Purizaca, estudió en UDEP como tú");
     setTimeout(() => opciones(), 600);
   }
@@ -404,6 +423,24 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
+  // Entrada Directa: Reclamo fuera de la hora / fuera de plazo
+  else if(verificar(["reclamo fuera de la hora", "reclamo fuera de hora", "reclamar fuera de plazo", "reclamo extemporaneo", "reclamo tarde"])) {
+    bot("No procederá ya que son plazos establecidos.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Entrada Directa: Cómo hacer un segundo reclamo
+  else if(verificar(["como hacer un segundo reclamo", "cómo hacer un segundo reclamo", "hacer segundo reclamo", "presentar segundo reclamo", "2do reclamo"])) {
+    bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Entrada Directa: Qué pasa si mi reclamo fue rechazado o fuera de plazo
+  else if(verificar(["reclamo fue rechazado", "reclamo rechazado", "por que rechazaron mi reclamo", "si rechazan mi reclamo"])) {
+    bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primero no pasa.");
+    setTimeout(() => opciones(), 600);
+  }
+
   // Bloque Empatía: Miedo a jalar
   else if(verificar(["miedo de jalar", "miedo a jalar", "voy a bica", "voy a trica", "desaprobar", "salir mal", "estresado por las notas"])) {
     bot("Respira hondo... Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. En la UDEP el nivel es alto, pero tú también tienes la capacidad de superarlo. No estás solo en esto, vamos paso a paso.");
@@ -430,7 +467,7 @@ function enviar(){
 
   // Bloque Empatía: Estudiar mejor
   else if(verificar(["quiero estudiar mejor", "como estudio", "cómo estudio", "tips para estudiar", "no se estudiar", "tecnicas de estudio", "metodos de estudio"])) {
-    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) y descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
+    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) and descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
     setTimeout(() => opciones(), 600);
   }
 
@@ -480,13 +517,19 @@ function enviar(){
   // Entrada Directa: Conversación sobre Exámenes General
   else if(verificar(["examen", "examenes", "exámenes", "parcial", "parciales", "final", "finales", "rol", "roles"])) {
     bot("¿Deseas ver el rol de exámenes disponibles para recoger, saber las reglas de tolerancia o consultar qué pasa si llegas tarde?");
-    contextoGlobal = "preguntando_examen"; // Setea contexto de examen
+    contextoGlobal = "preguntando_examen"; 
   }
 
   // Entrada Directa: Conversación sobre Horarios General
   else if(verificar(["horario", "horarios", "atencion", "atención", "abierto", "atienden"])) {
     bot("¿Deseas consultar el horario de ventanilla o de secretaría?");
-    contextoGlobal = "preguntando_horario"; // Setea contexto de horario
+    contextoGlobal = "preguntando_horario"; 
+  }
+
+  // Entrada Directa: Conversación sobre Reclamos General
+  else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia"])) {
+    bot("¿Deseas abrir el formato de la Hoja de Reclamos, saber qué pasa si estás fuera de plazo o cómo gestionar un segundo reclamo?");
+    contextoGlobal = "preguntando_reclamos";
   }
 
   // Trámites: Bachiller / Egresado
@@ -514,11 +557,6 @@ function enviar(){
     bot("Perfecto. Te abro el documento informativo sobre los convenios y el trámite de Prácticas Pre Profesionales (PPP):");
     setTimeout(() => responder("pdf_practicas"), 600);
   }
-  // Trámites: Reclamos
-  else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia"])) {
-    bot("Entendido. Te comparto el enlace directo para que puedas revisar o descargar el formato de la Hoja de Reclamos institucional:");
-    setTimeout(() => responder("pdf_reclamos"), 600);
-  }
   // Trámites: Reprogramación
   else if(verificar(["reprogramacion", "reprogramación", "reprogramar", "extemporaneo", "rezagado"])) {
     bot("Comprendo. Si no pudiste rendir un examen y requieres gestionar una reprogramación oficial, aquí tienes el enlace directo:");
@@ -531,7 +569,7 @@ function enviar(){
   }
   // Trámites: Mesa de ayuda SIGA
   else if(verificar(["ayuda", "mesa", "siga", "contraseña", "correo", "usuario", "bloqueo", "acceso"])) {
-    bot("Entiendo el inconveniente. Si tienes problemas de acceso con tu cuenta, correo institucional o la plataforma SIGA, comunícate con la Mesa de Ayuda:");
+    bot("Entendido el inconveniente. Si tienes problemas de acceso con tu cuenta, correo institucional o la plataforma SIGA, comunícate con la Mesa de Ayuda:");
     setTimeout(() => responder("mesa"), 600);
   }
   // General: Trámites
