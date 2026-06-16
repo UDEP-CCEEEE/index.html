@@ -308,27 +308,59 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo Expandido: Qué necesito para recoger mi examen
+  // Flujo: Qué necesito para recoger mi examen
   else if(verificar(["necesito para recoger", "necesito para recojer", "requisito para recoger", "requisitos para recoger", "llevar para recoger", "puedo recoger mi examen", "puedo recojer mi examen", "piden para recoger", "retirar mi examen", "entregar mi examen", "enseñar mi siga", "identificacion en fisico"])) {
     bot("Necesitas tu identificación en físico o puedes enseñar tu siga");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo Expandido: Cómo puedo usar las impresoras
+  // Flujo: Cómo puedo usar las impresoras
   else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo", "saca copia", "instrucciones para imprimir", "codigo qr", "código qr", "esta pegada en la pared"])) {
     bot("Hasta donde sé, existen un código QR y unas indicaciones pegadas en la pared, justo donde se encuentra la fotocopiadora");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo Expandido: Cuánto tiempo de tolerancia hay
+  // Flujo: Cuánto tiempo de tolerancia hay
   else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "tolerancia para entrar", "cuanto de tolerancia", "cuánto de tolerancia", "minutos tarde puedo llegar", "tiempo limite", "tiempo límite", "dejan entrar al examen", "rfag", "articulo 37", "artículo 37"])) {
     bot("Según el RFAG, solo existen 15 minutos de tolerancia después de iniciar el examen, o sea que si empieza a las 2:00 p.m, entonces hay tolerancia de 2:15 p.m. (lo encuentras en el artículo 37 inciso 37.2)");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo Expandido: Qué pasa si llego tarde a mi examen
+  // Flujo: Qué pasa si llego tarde a mi examen
   else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "no llegue a tiempo", "quede dormido", "quedé dormido", "no llegue al examen", "falto por enfermedad", "perdi mi examen", "perdí mi examen"])) {
     bot("Depende, si es por salud puedes justificarlo a través de SIGA en la parte de “trámites” y si fue por un descuido, simplemente lo pierdes y lo anulas, debes de tener cuidado y estudiar mucho.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // --- NUEVOS FLUJOS DE SOPORTE EMOCIONAL Y EMPATÍA ---
+  
+  // Soporte: Miedo a jalar / Ansiedad por notas o evaluaciones
+  else if(verificar(["miedo de jalar", "miedo a jalar", "voy a bica", "voy a trica", "desaprobar", "salir mal", "estresado por las notas", "presion me mata", "presión me mata", "el examen va a estar yuca"])) {
+    bot("Respira hondo... Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. En la UDEP el nivel es alto, pero tú también tienes la capacidad de superarlo. No estás solo en esto, vamos paso a paso.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Soporte: Bloqueo mental / Sentir que ya no rinden más
+  else if(verificar(["no voy a rendir mas", "no voy a rendir más", "ya no puedo mas", "ya no puedo más", "no rindo", "cabeza va a explotar", "no me entra nada", "estoy quemado", "burnout", "quiero tirar la toalla", "me rindo"])) {
+    bot("Si sientes que tu cabeza va a explotar, es tu cuerpo pidiéndote un descanso. Estudiar bloqueado no te ayudará a memorizar. Deja los apuntes por 15 minutos, estira los brazos, toma agua y despeja la mente. Tu salud mental es lo primero.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Soporte: Crisis Vocacional / Esto no es lo mío
+  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equivoque de carrera", "me equivoqué de carrera", "no sirvo para esto", "odio mi carrera", "no encajo", "cambiarme de facultad"])) {
+    bot("Es super normal dudar de la carrera, sobre todo en las semanas más difíciles del ciclo. A veces el estrés nos hace creer que no servimos para esto. Si sientes que de verdad no es lo tuyo, recuerda que en la UDEP puedes pedir una cita de orientación vocacional. No tiene nada de malo cambiar de rumbo para buscar tu felicidad.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Soporte: Estar tranquila / Calmar la ansiedad activa
+  else if(verificar(["ayudame a estar tranquila", "ayúdame a estar tranquila", "ayudame a calmarme", "ayúdame a calmarme", "estoy llorando", "tengo ansiedad", "no puedo dormir por estudiar", "como me calmo", "cómo me calmo"])) {
+    bot("Estoy aquí contigo. Vamos a calmarnos juntos: cierra los ojos, toma aire por la nariz lentamente durante 4 segundos... mantenlo por 4 segundos... y suéltalo por la boca en 4 segundos. Un examen es importante, pero tu paz mental lo es muchísimo más. Todo va a estar bien.");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Soporte: Quiero estudiar mejor / Métodos eficaces
+  else if(verificar(["quiero estudiar mejor", "como estudio", "cómo estudio", "tips para estudiar", "no se estudiar", "no sé estudiar", "tecnicas de estudio", "técnicas de estudio", "metodos de estudio", "métodos de estudio", "como organizarme", "cómo organizarme"])) {
+    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) y descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
     setTimeout(() => opciones(), 600);
   }
 
@@ -606,7 +638,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 
   else if(t==="no"){
     const div=document.createElement("div");
-    div.className="msg bot despedida";
+    div.className = "msg bot despedida";
     div.innerHTML = `<img src="mascota.png.jfif"><br><b>¡Muchas gracias, cuídate! 👋</b>`;
     chat.appendChild(div);
     chat.scrollTop = chat.scrollHeight;
