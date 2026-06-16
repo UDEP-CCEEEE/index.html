@@ -364,7 +364,7 @@ function enviar(){
 
   // Si venían hablando de Reclamos de forma general
   if (contextoGlobal === "preguntando_reclamos") {
-    if (verificar(["fuera de la hora", "fuera de hora", "tarde", "plazo vencido", "vencio el plazo", "paso la hora"])) {
+    if (verificar(["fuera de la hora", "fuera de hora", "tarde", "plazo vencido", "vencio el plazo", "paso la hora", "fuera de plazo", "tiempo vencido"])) {
       bot("No procederá ya que son plazos establecidos.");
       setTimeout(() => opciones(), 600);
       return;
@@ -384,8 +384,14 @@ function enviar(){
 
   // 2. INTENCIONES GENERALES (ENTRADA PRINCIPAL)
 
+  // OPTIMIZACIÓN PRIORITARIA: Entrada Directa de Reclamos Fuera de Hora o Plazo Vencido
+  if(verificar(["fuera de la hora", "fuera de hora", "fuera de plazo", "plazo vencido", "vencio el plazo", "venció el plazo", "reclamar tarde", "reclamo tarde", "se me paso el plazo", "se me pasó el plazo", "tiempo vencido"])) {
+    bot("No procederá ya que son plazos establecidos.");
+    setTimeout(() => opciones(), 600);
+  }
+
   // Pregunta sobre el creador / Lázaro
-  if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "lázaro", "purizaca"])) {
+  else if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "lázaro", "purizaca"])) {
     bot("Mi creador es Lázaro Purizaca, estudió en UDEP como tú");
     setTimeout(() => opciones(), 600);
   }
@@ -420,12 +426,6 @@ function enviar(){
   else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "quede dormido", "quedé dormido"])) {
     bot("Depende, si es por salud puedes justificarlo a través de SIGA en la parte de “trámites” y si fue por un descuido, simplemente lo pierdes y lo anulas, debes de tener cuidado y estudiar mucho.");
     contextoGlobal = "examen_tarde";
-    setTimeout(() => opciones(), 600);
-  }
-
-  // Entrada Directa: Reclamo fuera de la hora / fuera de plazo
-  else if(verificar(["reclamo fuera de la hora", "reclamo fuera de hora", "reclamar fuera de plazo", "reclamo extemporaneo", "reclamo tarde"])) {
-    bot("No procederá ya que son plazos establecidos.");
     setTimeout(() => opciones(), 600);
   }
 
@@ -467,7 +467,7 @@ function enviar(){
 
   // Bloque Empatía: Estudiar mejor
   else if(verificar(["quiero estudiar mejor", "como estudio", "cómo estudio", "tips para estudiar", "no se estudiar", "tecnicas de estudio", "metodos de estudio"])) {
-    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) and descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
+    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) y descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
     setTimeout(() => opciones(), 600);
   }
 
