@@ -308,6 +308,30 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
+  // Flujo: Qué necesito para recoger mi examen
+  else if(verificar(["necesito para recoger", "necesito para recojer", "requisito para recoger", "requisitos para recoger", "llevar para recoger", "puedo recoger mi examen", "puedo recojer mi examen"])) {
+    bot("Necesitas tu identificación en físico o puedes enseñar tu siga");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Flujo: Cómo puedo usar las impresoras
+  else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo"])) {
+    bot("Hasta donde sé, existen un código QR y unas indicaciones pegadas en la pared, justo donde se encuentra la fotocopiadora");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Flujo: Cuánto tiempo de tolerancia hay
+  else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "tolerancia para entrar", "cuanto de tolerancia", "cuánto de tolerancia"])) {
+    bot("Según el RFAG, solo existen 15 minutos de tolerancia después de iniciar el examen, o sea que si empieza a las 2:00 p.m, entonces hay tolerancia de 2:15 p.m. (lo encuentras en el artículo 37 inciso 37.2)");
+    setTimeout(() => opciones(), 600);
+  }
+
+  // Flujo: Qué pasa si llego tarde a mi examen
+  else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "no llegue a tiempo"])) {
+    bot("Depende, si es por salud puedes justificarlo a través de SIGA en la parte de “trámites” y si fue por un descuido, simplemente lo pierdes y lo anulas, debes de tener cuidado y estudiar mucho.");
+    setTimeout(() => opciones(), 600);
+  }
+
   // Flujo Exhaustivo: Solicitud de Correos Electrónicos Directos
   else if(verificar(["correo", "mail", "email", "escribir a", "escribirle", "contacto de", "direccion de"])) {
     if(verificar(["secretaria", "secretaría", "academica", "académica", "secre"])) {
@@ -345,7 +369,7 @@ function enviar(){
       const b2=document.createElement("button");
       b2.className="btn";
       b2.innerHTML="📅 Calendario Académico PDF";
-      b2.onclick=()=>window.open("TU_LINK_CALENDARIO_PDF","_blank");
+      b2.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQAdJf7wjXsIRIHlr_2phXDQAW8NxF2VNk6DrKX2avNOo-8?e=RW95nO","_blank");
       chat.appendChild(b2);
       opciones();
     }, 600);
@@ -501,7 +525,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     const b2=document.createElement("button");
     b2.className="btn";
     b2.innerHTML="📅 Calendario Académico PDF";
-    b2.onclick=()=>window.open("TU_LINK_CALENDARIO_PDF","_blank");
+    b2.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQAdJf7wjXsIRIHlr_2phXDQAW8NxF2VNk6DrKX2avNOo-8?e=RW95nO","_blank");
     chat.appendChild(b2);
     opciones();
   }
