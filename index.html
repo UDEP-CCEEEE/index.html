@@ -390,6 +390,20 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
+  // NUEVA OPTIMIZACIÓN EMOCIONAL EXHAUSTIVA: Tristeza, Presión, Miedo extremo a jalar, bajón
+  else if(verificar(["triste", "distre", "presionado", "presionada", "deprimido", "deprimida", "bajon", "bajón", "bajoneado", "bajoneada", "mal escenario", "no se que hacer si jalo", "no sé qué hacer si jalo", "creo que me ira mal", "creo que me irá mal", "tengo miedo de jalar", "tengo miedo a jalar", "voy a jalar"])) {
+    // Arreglo de respuestas alternativas y empáticas para que Jarvis rote sus mensajes
+    const respuestasTristeza = [
+      "Lamento mucho que te sientas así... Sé que la presión en la UDEP puede llegar a ser abrumadora, pero por favor, no te rindas. Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. Estoy aquí contigo, respira hondo y vamos paso a paso. Todo va a estar bien.",
+      "Sé que da muchísimo miedo ver un panorama difícil y sentir que las cosas van a salir mal, pero un tropiezo es solo parte del camino. No dejes que la frustración de hoy te haga dudar de tu talento. Date un respiro, lávate la cara y recuerda que eres más fuerte que cualquier nota baja.",
+      "Es completamente válido sentirse triste o deprimido cuando las cosas se ponen cuesta arriba, la vida universitaria pesa un montón a veces. Pero una mala nota no borra todo tu esfuerzo. No cargues con todo esto a solas; enfócate en lo que puedes controlar hoy y avanza a tu propio ritmo. Confío en ti."
+    ];
+    // Selección aleatoria del mensaje
+    const respuestaAleatoria = respuestasTristeza[Math.floor(Math.random() * respuestasTristeza.length)];
+    bot(respuestaAleatoria);
+    setTimeout(() => opciones(), 600);
+  }
+
   // Pregunta sobre el creador / Lázaro
   else if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "lázaro", "purizaca"])) {
     bot("Mi creador es Lázaro Purizaca, estudió en UDEP como tú");
@@ -441,12 +455,6 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
-  // Bloque Empatía: Miedo a jalar
-  else if(verificar(["miedo de jalar", "miedo a jalar", "voy a bica", "voy a trica", "desaprobar", "salir mal", "estresado por las notas"])) {
-    bot("Respira hondo... Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. En la UDEP el nivel es alto, pero tú también tienes la capacidad de superarlo. No estás solo en esto, vamos paso a paso.");
-    setTimeout(() => opciones(), 600);
-  }
-
   // Bloque Empatía: Ya no rindo más
   else if(verificar(["no voy a rendir mas", "no voy a rendir más", "ya no puedo mas", "ya no puedo más", "no rindo", "cabeza va a explotar", "quiero tirar la toalla"])) {
     bot("Si sientes que tu cabeza va a explotar, es tu cuerpo pidiéndote un descanso. Estudiar bloqueado no te ayudará a memorizar. Deja los apuntes por 15 minutos, estira los brazos, toma agua y despeja la mente. Tu salud mental es lo primero.");
@@ -459,8 +467,8 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
-  // Bloque Empatía: Estar tranquila
-  else if(verificar(["ayudame a estar tranquila", "ayúdame a estar tranquila", "ayudame a calmarme", "ayúdame a calmarme", "estoy llorando", "tengo ansiedad"])) {
+  // Bloque Empatía: Estar tranquila / Ayúdame de emergencia
+  else if(verificar(["ayudame a estar tranquila", "ayúdame a estar tranquila", "ayudame a calmarme", "ayúdame a calmarme", "ayudame", "ayúdame"])) {
     bot("Estoy aquí contigo. Vamos a calmarnos juntos: cierra los ojos, toma aire por la nariz lentamente durante 4 segundos... mantenlo por 4 segundos... y suéltalo por la boca en 4 segundos. Un examen es importante, pero tu paz mental lo es muchísimo más. Todo va a estar bien.");
     setTimeout(() => opciones(), 600);
   }
