@@ -182,6 +182,9 @@
 <script>
 const chat = document.getElementById("chat");
 
+// Variable global para almacenar el hilo de la conversación (Memoria contextual)
+let contextoGlobal = ""; 
+
 function hora(){
   const d=new Date();
   return d.getHours()+":"+d.getMinutes().toString().padStart(2,'0');
@@ -248,6 +251,7 @@ function limpiar(){
 
 function menu(){
   limpiar();
+  contextoGlobal = ""; // Resetea la memoria al volver al menú principal
   bot("Selecciona una opción:");
   btn("1 Horario de atención en ventanilla","1");
   btn("2 Horario de atención en secretaría","2");
@@ -291,109 +295,175 @@ function enviar(){
   input.value="";
   user(texto);
 
-  // --- MOTOR COGNITIVO DE CONVERSACIÓN (SIMULACIÓN IA) ---
-
-  // Helper para evaluar múltiples palabras clave de nuestro diccionario expandido
+  // --- MOTOR COGNITIVO DE CONVERSACIÓN CON MEMORIA DE CONTEXTO ---
   const verificar = (lista) => lista.some(palabra => texto.includes(palabra));
 
-  // Pregunta sobre el creador / Diseñador / Programador
+  // 1. EVALUACIÓN DE CONTEXTOS ACTIVOS (MEMORIA)
+  
+  // Si venían hablando de Horarios
+  if (contextoGlobal === "preguntando_horario") {
+    if (verificar(["secretaria", "secretaría", "secre"])) {
+      bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113");
+      contextoGlobal = "secretaria";
+      setTimeout(() => opciones(), 600);
+      return;
+    } else if (verificar(["ventanilla", "ventanillas", "vntanilla"])) {
+      bot("🕒 Horario de atención en ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm");
+      contextoGlobal = "ventanilla";
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+  }
+
+  // Seguimiento conversacional: Si ya están en el flujo de Secretaría y piden anexos o correos
+  if (contextoGlobal === "secretaria") {
+    if (verificar(["anexo", "numero", "número", "telefono", "teléfono", "llamar"])) {
+      bot("El anexo directo de Secretaría Académica es <b>3113</b>.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["correo", "mail", "email", "escribir"])) {
+      bot("Puedes escribirles a su correo institucional:<br>📧 <b style='color:#003A8F;'>secretaria.academica.cceeee@udep.edu.pe</b>");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+  }
+
+  // Si venían hablando de Exámenes de forma general
+  if (contextoGlobal === "preguntando_examen") {
+    if (verificar(["recoger", "recojer", "que necesito", "llevar", "requisito"])) {
+      bot("Necesitas tu identificación en físico o puedes enseñar tu siga");
+      contextoGlobal = "examen_recojo";
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["tolerancia", "tiempo", "minutos", "tarde", "limite", "límite"])) {
+      bot("Según el RFAG, solo existen 15 minutos de tolerancia después de iniciar el examen, o sea que si empieza a las 2:00 p.m, entonces hay tolerancia de 2:15 p.m. (lo encuentras en el artículo 37 inciso 37.2)");
+      contextoGlobal = "examen_tolerancia";
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["rol", "fechas", "cronograma", "donde ver", "publicados", "lista"])) {
+      bot("Por supuesto. Aquí tienes el acceso directo al rol oficial para ver los exámenes que ya están publicados y listos para recoger en la facultad:");
+      setTimeout(() => responder("4"), 600);
+      return;
+    }
+  }
+
+  // Si venían hablando de Idiomas de forma general
+  if (contextoGlobal === "preguntando_idiomas") {
+    if (verificar(["clc", "pdf", "documento", "guia", "guía", "acreditar"])) {
+      responder("pdf_clc");
+      return;
+    }
+    if (verificar(["contacto", "correo", "mail", "escribir", "general", "matricula"])) {
+      responder("idiomas");
+      return;
+    }
+  }
+
+
+  // 2. INTENCIONES GENERALES (ENTRADA PRINCIPAL)
+
+  // Pregunta sobre el creador
   if(verificar(["creador", "creo", "creó", "dueño", "dueno", "inventor", "programo", "programó", "diseñó", "diseno", "hizo", "lazaro", "purizaca"])) {
     bot("Mi creador es Lázaro Purizaca, estudió en UDEP como tú");
     setTimeout(() => opciones(), 600);
   }
   
-  // Flujo: Objetos perdidos / Cosas perdidas en campus
+  // Objetos perdidos
   else if(verificar(["perdio", "perdió", "perdí", "perdi", "olvide", "olvidé", "busco", "encontre", "encontré", "perdidas", "perdidos", "mochila", "casaca", "objeto", "llaves", "celular", "cartuchera"])) {
     bot("Depende de la sinceridad de la persona, puede que tu objeto perdido se encuentre en la secretaría académica de la facultad, pero también de ingeniería o en la sala de control que es la puerta blanca.");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Qué necesito para recoger mi examen
-  else if(verificar(["necesito para recoger", "necesito para recojer", "requisito para recoger", "requisitos para recoger", "llevar para recoger", "puedo recoger mi examen", "puedo recojer mi examen", "piden para recoger", "retirar mi examen", "entregar mi examen", "enseñar mi siga", "identificacion en fisico"])) {
+  // Entrada Directa: Qué necesito para recoger mi examen
+  else if(verificar(["necesito para recoger", "necesito para recojer", "requisito para recoger", "requisitos para recoger", "llevar para recoger", "puedo recoger mi examen", "puedo recojer mi examen"])) {
     bot("Necesitas tu identificación en físico o puedes enseñar tu siga");
+    contextoGlobal = "examen_recojo";
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Cómo puedo usar las impresoras
-  else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo", "saca copia", "instrucciones para imprimir", "codigo qr", "código qr", "esta pegada en la pared"])) {
+  // Entrada Directa: Cómo puedo usar las impresoras
+  else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo", "saca copia", "instrucciones"])) {
     bot("Hasta donde sé, existen un código QR y unas indicaciones pegadas en la pared, justo donde se encuentra la fotocopiadora");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Cuánto tiempo de tolerancia hay
-  else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "tolerancia para entrar", "cuanto de tolerancia", "cuánto de tolerancia", "minutos tarde puedo llegar", "tiempo limite", "tiempo límite", "dejan entrar al examen", "rfag", "articulo 37", "artículo 37"])) {
+  // Entrada Directa: Cuánto tiempo de tolerancia hay
+  else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "cuanto de tolerancia", "cuánto de tolerancia", "minutos tarde puedo llegar"])) {
     bot("Según el RFAG, solo existen 15 minutos de tolerancia después de iniciar el examen, o sea que si empieza a las 2:00 p.m, entonces hay tolerancia de 2:15 p.m. (lo encuentras en el artículo 37 inciso 37.2)");
+    contextoGlobal = "examen_tolerancia";
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo: Qué pasa si llego tarde a mi examen
-  else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "no llegue a tiempo", "quede dormido", "quedé dormido", "no llegue al examen", "falto por enfermedad", "perdi mi examen", "perdí mi examen"])) {
+  // Entrada Directa: Qué pasa si llego tarde a mi examen
+  else if(verificar(["llego tarde", "llegar tarde", "si llego tarde", "tarde al examen", "tarde a mi examen", "me pase de la tolerancia", "quede dormido", "quedé dormido"])) {
     bot("Depende, si es por salud puedes justificarlo a través de SIGA en la parte de “trámites” y si fue por un descuido, simplemente lo pierdes y lo anulas, debes de tener cuidado y estudiar mucho.");
+    contextoGlobal = "examen_tarde";
     setTimeout(() => opciones(), 600);
   }
 
-  // --- NUEVOS FLUJOS DE SOPORTE EMOCIONAL Y EMPATÍA ---
-  
-  // Soporte: Miedo a jalar / Ansiedad por notas o evaluaciones
-  else if(verificar(["miedo de jalar", "miedo a jalar", "voy a bica", "voy a trica", "desaprobar", "salir mal", "estresado por las notas", "presion me mata", "presión me mata", "el examen va a estar yuca"])) {
+  // Bloque Empatía: Miedo a jalar
+  else if(verificar(["miedo de jalar", "miedo a jalar", "voy a bica", "voy a trica", "desaprobar", "salir mal", "estresado por las notas"])) {
     bot("Respira hondo... Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. En la UDEP el nivel es alto, pero tú también tienes la capacidad de superarlo. No estás solo en esto, vamos paso a paso.");
     setTimeout(() => opciones(), 600);
   }
 
-  // Soporte: Bloqueo mental / Sentir que ya no rinden más
-  else if(verificar(["no voy a rendir mas", "no voy a rendir más", "ya no puedo mas", "ya no puedo más", "no rindo", "cabeza va a explotar", "no me entra nada", "estoy quemado", "burnout", "quiero tirar la toalla", "me rindo"])) {
+  // Bloque Empatía: Ya no rindo más
+  else if(verificar(["no voy a rendir mas", "no voy a rendir más", "ya no puedo mas", "ya no puedo más", "no rindo", "cabeza va a explotar", "quiero tirar la toalla"])) {
     bot("Si sientes que tu cabeza va a explotar, es tu cuerpo pidiéndote un descanso. Estudiar bloqueado no te ayudará a memorizar. Deja los apuntes por 15 minutos, estira los brazos, toma agua y despeja la mente. Tu salud mental es lo primero.");
     setTimeout(() => opciones(), 600);
   }
 
-  // Soporte: Crisis Vocacional / Esto no es lo mío
-  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equivoque de carrera", "me equivoqué de carrera", "no sirvo para esto", "odio mi carrera", "no encajo", "cambiarme de facultad"])) {
+  // Bloque Empatía: Esto no es lo mío
+  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equivoque de carrera", "me equivoqué de carrera", "no sirvo para esto", "odio mi carrera"])) {
     bot("Es super normal dudar de la carrera, sobre todo en las semanas más difíciles del ciclo. A veces el estrés nos hace creer que no servimos para esto. Si sientes que de verdad no es lo tuyo, recuerda que en la UDEP puedes pedir una cita de orientación vocacional. No tiene nada de malo cambiar de rumbo para buscar tu felicidad.");
     setTimeout(() => opciones(), 600);
   }
 
-  // Soporte: Estar tranquila / Calmar la ansiedad activa
-  else if(verificar(["ayudame a estar tranquila", "ayúdame a estar tranquila", "ayudame a calmarme", "ayúdame a calmarme", "estoy llorando", "tengo ansiedad", "no puedo dormir por estudiar", "como me calmo", "cómo me calmo"])) {
+  // Bloque Empatía: Estar tranquila
+  else if(verificar(["ayudame a estar tranquila", "ayúdame a estar tranquila", "ayudame a calmarme", "ayúdame a calmarme", "estoy llorando", "tengo ansiedad"])) {
     bot("Estoy aquí contigo. Vamos a calmarnos juntos: cierra los ojos, toma aire por la nariz lentamente durante 4 segundos... mantenlo por 4 segundos... y suéltalo por la boca en 4 segundos. Un examen es importante, pero tu paz mental lo es muchísimo más. Todo va a estar bien.");
     setTimeout(() => opciones(), 600);
   }
 
-  // Soporte: Quiero estudiar mejor / Métodos eficaces
-  else if(verificar(["quiero estudiar mejor", "como estudio", "cómo estudio", "tips para estudiar", "no se estudiar", "no sé estudiar", "tecnicas de estudio", "técnicas de estudio", "metodos de estudio", "métodos de estudio", "como organizarme", "cómo organizarme"])) {
+  // Bloque Empatía: Estudiar mejor
+  else if(verificar(["quiero estudiar mejor", "como estudio", "cómo estudio", "tips para estudiar", "no se estudiar", "tecnicas de estudio", "metodos de estudio"])) {
     bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) y descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
     setTimeout(() => opciones(), 600);
   }
 
-  // Flujo Exhaustivo: Solicitud de Correos Electrónicos Directos
-  else if(verificar(["correo", "mail", "email", "escribir a", "escribirle", "contacto de", "direccion de"])) {
+  // Petición directa de Correos
+  else if(verificar(["correo", "mail", "email", "escribir a", "contacto de"])) {
     if(verificar(["secretaria", "secretaría", "academica", "académica", "secre"])) {
       bot("El correo institucional de <b>Secretaría Académica</b> es:<br>📧 <b style='color:#003A8F;'>secretaria.academica.cceeee@udep.edu.pe</b>");
     }
     else if(verificar(["sala", "salas", "cubiculo", "cubículo", "cubis", "safcceeee", "separar", "reserva"])) {
       bot("El correo para solicitar la <b>Reserva de Salas de Estudio</b> es:<br>📧 <b style='color:#003A8F;'>safcceeee-piura@udep.edu.pe</b>");
     }
-    else if(verificar(["egresado", "bachiller", "titulo", "título", "grado", "melissa", "coello"])) {
+    else if(verificar(["egresado", "bachiller", "titulo", "título", "melissa", "coello"])) {
       bot("El correo de la <b>Oficina de Atención al Egresado</b> es:<br>📧 <b style='color:#003A8F;'>melissa.coello@udep.edu.pe</b>");
     }
-    else if(verificar(["certificado", "constancia", "historial", "documento", "oficiales", "record", "récord"])) {
+    else if(verificar(["certificado", "constancia", "historial", "documento"])) {
       bot("El correo para solicitar <b>Documentos Oficiales</b> es:<br>📧 <b style='color:#003A8F;'>documentos.oficiales@udep.edu.pe</b>");
     }
-    else if(verificar(["idioma", "idiomas", "ingles", "inglés", "centro de idiomas"])) {
+    else if(verificar(["idioma", "idiomas", "ingles", "inglés"])) {
       bot("El correo del <b>Centro de Idiomas</b> es:<br>📧 <b style='color:#003A8F;'>idiomas@udep.edu.pe</b>");
     }
-    else if(verificar(["ayuda", "mesa", "siga", "contraseña", "sistemas", "it", "soporte"])) {
+    else if(verificar(["ayuda", "mesa", "siga", "contraseña"])) {
       bot("El correo de la <b>Mesa de Ayuda</b> de Sistemas es:<br>📧 <b style='color:#003A8F;'>mesadeayuda@udep.edu.pe</b>");
     }
     else {
-      bot("¿De qué área específica necesitas el correo? Puedes seleccionar una opción de trámites o guías para visualizar los datos de contacto directos.");
+      bot("¿De qué área específica necesitas el correo? Puedes escribirme el nombre del área o elegir una opción del menú.");
       setTimeout(() => menu(), 600);
       return;
     }
     setTimeout(() => opciones(), 600);
   }
 
-  // NUEVO FLUJO: Solo Calendario y Feriados (Evitando cruces con exámenes)
-  else if(verificar(["calendario", "feriado", "feriados", "vacaciones", "descanso", "no hay clase", "lectiva", "lectivas", "suspension", "suspensión", "cronograma"]) && !verificar(["examen", "examenes", "exámenes", "parcial", "final", "rol"])) {
+  // Calendario y Feriados
+  else if(verificar(["calendario", "feriado", "feriados", "vacaciones", "descanso", "no hay clase"]) && !verificar(["examen", "examenes", "exámenes", "parcial", "final", "rol"])) {
     bot("Perfecto. Si deseas revisar el Calendario Académico oficial para verificar las semanas lectivas, suspensiones de clases o días feriados del ciclo, aquí tienes el enlace:");
     setTimeout(() => {
       limpiar();
@@ -406,96 +476,87 @@ function enviar(){
       opciones();
     }, 600);
   }
-  // Bachiller / Egresado
-  else if(verificar(["bachiller", "egresado", "egresada", "egrese", "egresé", "egresar", "titulo", "título", "titulacion", "titulación", "diploma", "grado", "graduarme", "graduacion", "graduación", "melissa", "coello"])) {
+
+  // Entrada Directa: Conversación sobre Exámenes General
+  else if(verificar(["examen", "examenes", "exámenes", "parcial", "parciales", "final", "finales", "rol", "roles"])) {
+    bot("¿Deseas ver el rol de exámenes disponibles para recoger, saber las reglas de tolerancia o consultar qué pasa si llegas tarde?");
+    contextoGlobal = "preguntando_examen"; // Setea contexto de examen
+  }
+
+  // Entrada Directa: Conversación sobre Horarios General
+  else if(verificar(["horario", "horarios", "atencion", "atención", "abierto", "atienden"])) {
+    bot("¿Deseas consultar el horario de ventanilla o de secretaría?");
+    contextoGlobal = "preguntando_horario"; // Setea contexto de horario
+  }
+
+  // Trámites: Bachiller / Egresado
+  else if(verificar(["bachiller", "egresado", "egresada", "titulo", "título", "grado", "melissa"])) {
     bot("Claro, si deseas tramitar tu bachiller o consultar sobre tu condición de egresado, debes comunicarte con la Oficina de Atención al Egresado:");
     setTimeout(() => responder("egresado"), 600);
   } 
-  // Certificados y Documentos
-  else if(verificar(["certificado", "certificados", "constancia", "constancias", "historial", "historiales", "carta", "documento", "documentos", "notas", "record", "récord", "oficiales"])) {
+  // Trámites: Certificados
+  else if(verificar(["certificado", "certificados", "constancia", "constancias", "historial", "documento", "oficiales"])) {
     bot("Entendido. Para solicitar certificados, constancias oficiales o historiales académicos, debes escribir al área de Documentos Oficiales:");
     setTimeout(() => responder("docs"), 600);
   }
-  // Reserva de Sala / Cubículos
-  else if(verificar(["reserva", "reservar", "sala", "salas", "cubiculo", "cubículo", "cubiculos", "cubículos", "cubi", "cubis", "estudiar", "separar", "safcceeee", "ambiente"])) {
+  // Trámites: Sala / Cubículos
+  else if(verificar(["reserva", "reservar", "sala", "salas", "cubiculo", "cubículo", "cubi", "separar"])) {
     bot("Por supuesto. Si quieres reservar un cubículo o sala de estudio para trabajar con tu grupo, aquí tienes el procedimiento y los requisitos indispensables:");
     setTimeout(() => responder("3"), 600);
   }
-  // Exámenes, Evaluaciones y Roles
-  else if(verificar(["examen", "examenes", "exámenes", "parcial", "parciales", "final", "finales", "recojer", "recoger", "rol", "roles", "fecha de examen", "recojo", "calificada"])) {
-    bot("Por supuesto. Aquí tienes el acceso directo al rol oficial para ver los exámenes que ya están publicados y listos para recoger en la facultad:");
-    setTimeout(() => responder("4"), 600);
-  }
-  // Justificación de inasistencias
-  else if(verificar(["falta", "faltas", "falté", "falte", "inasistencia", "inasistencias", "justificar", "justificacion", "justificación", "enfermo", "enferma", "médico", "medico", "permiso", "descanso", "no asisti", "no asistí"])) {
+  // Trámites: Justificación de faltas
+  else if(verificar(["falta", "faltas", "inasistencia", "inasistencias", "justificar", "justificacion", "enfermo"])) {
     bot("Comprendo. Si has faltado a clases y necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
     setTimeout(() => responder("pdf_inasistencias"), 600);
   }
-  // Prácticas Pre Profesionales (PPP)
-  else if(verificar(["practica", "práctica", "practicas", "prácticas", "convenio", "convenios", "ppp", "pre profesional", "preprofesionales", "pasantia", "pasantía", "empresa"])) {
+  // Trámites: Prácticas (PPP)
+  else if(verificar(["practica", "práctica", "practicas", "convenio", "ppp", "pre profesional"])) {
     bot("Perfecto. Te abro el documento informativo sobre los convenios y el trámite de Prácticas Pre Profesionales (PPP):");
     setTimeout(() => responder("pdf_practicas"), 600);
   }
-  // Reclamos / Quejas
-  else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia", "sugerencias", "libro", "reclamaciones"])) {
+  // Trámites: Reclamos
+  else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia"])) {
     bot("Entendido. Te comparto el enlace directo para que puedas revisar o descargar el formato de la Hoja de Reclamos institucional:");
     setTimeout(() => responder("pdf_reclamos"), 600);
   }
-  // Reprogramación de Exámenes
-  else if(verificar(["reprogramacion", "reprogramación", "reprogramar", "extemporaneo", "extemporáneo", "rezagado", "perdi mi examen", "perdí mi examen"])) {
+  // Trámites: Reprogramación
+  else if(verificar(["reprogramacion", "reprogramación", "reprogramar", "extemporaneo", "rezagado"])) {
     bot("Comprendo. Si no pudiste rendir un examen y requieres gestionar una reprogramación oficial, aquí tienes el enlace directo:");
     setTimeout(() => responder("pdf_repro"), 600);
   }
-  // Idiomas / CLC
-  else if(verificar(["idioma", "idiomas", "ingles", "inglés", "convalidar", "convalidación", "convalidacion", "centro de idiomas", "clc", "exoneracion"])) {
-    bot("Con gusto. Para todo lo relacionado con convalidaciones de inglés, exámenes y matrículas, debes contactar al Centro de Idiomas:");
-    setTimeout(() => {
-      if (texto.includes("clc") || texto.includes("pdf")) {
-        responder("pdf_clc");
-      } else {
-        responder("idiomas");
-      }
-    }, 600);
+  // Trámites: Idiomas / CLC
+  else if(verificar(["idioma", "idiomas", "ingles", "inglés", "convalidar", "centro de idiomas", "clc"])) {
+    bot("¿Deseas información general del Centro de Idiomas o abrir el PDF de presentación del CLC?");
+    contextoGlobal = "preguntando_idiomas";
   }
-  // Mesa de Ayuda / Accesos SIGA
-  else if(verificar(["ayuda", "mesa", "siga", "contraseña", "contrasena", "correo", "usuario", "bloqueo", "acceso", "clave", "no puedo entrar", "sistemas", "it", "plataforma"])) {
+  // Trámites: Mesa de ayuda SIGA
+  else if(verificar(["ayuda", "mesa", "siga", "contraseña", "correo", "usuario", "bloqueo", "acceso"])) {
     bot("Entiendo el inconveniente. Si tienes problemas de acceso con tu cuenta, correo institucional o la plataforma SIGA, comunícate con la Mesa de Ayuda:");
     setTimeout(() => responder("mesa"), 600);
   }
-  // Horarios generales de atención
-  else if(verificar(["horario", "horarios", "atencion", "atención", "ventanilla", "ventanillas", "secretaria", "secretaría", "secre", "abren", "atienden", "abierto"])) {
-    bot("Te muestro los horarios de atención presencial de la facultad:");
-    setTimeout(() => {
-      if (texto.includes("secretaria") || texto.includes("secretaría") || texto.includes("secre")) {
-        responder("2");
-      } else {
-        responder("1");
-      }
-    }, 600); 
-  }
-  // Trámites en general
-  else if(verificar(["tramite", "tramites", "trámite", "trámites", "requisitos de", "como hago", "cómo hago", "gestion", "gestión"])) {
+  // General: Trámites
+  else if(verificar(["tramite", "tramites", "trámite", "trámites"])) {
     bot("Te redirijo a la sección de trámites de la facultad:");
     setTimeout(() => responder("tramites"), 600);
   }
-  // Guías y PDFs en general
-  else if(verificar(["guia", "guias", "guía", "guías", "documento", "documentos", "pdf", "descargar", "link", "enlace", "formatos"])) {
+  // General: Guías
+  else if(verificar(["guia", "guias", "guía", "guías", "documentos pdf"])) {
     bot("Te muestro el listado de documentos y guías PDF disponibles:");
     setTimeout(() => responder("guias"), 600);
   }
   // Saludos
-  else if(verificar(["hola", "buenos dias", "buenos días", "buenas tardes", "buenas noches", "que tal", "qué tal", "saludos", "jarvis", "oe", "holaa", "aló", "alo"])) {
+  else if(verificar(["hola", "buenos dias", "buenos días", "buenas tardes", "buenas noches", "que tal", "jarvis", "holaa"])) {
     bot("¡Hola de nuevo! 😊 Cuéntame, ¿en qué te puedo asesorar hoy?");
     setTimeout(() => menu(), 600);
   }
-  // Respuestas Directas de Confirmación Sí / No
+  // Confirmaciones directas
   else if(texto === "si" || texto === "sí" || texto === "claro" || texto === "por favor" || texto === "porfa") {
     responder("si");
   }
-  else if(texto === "no" || texto === "gracias" || texto === "ya no" || texto === "nada mas" || texto === "nada más" || texto === "chau" || texto === "adios" || texto === "adiós") {
+  else if(texto === "no" || texto === "gracias" || texto === "ya no" || texto === "nada mas" || texto === "chau") {
     responder("no");
   }
-  // Otros casos (No entiende)
+  // No entiende el mensaje
   else {
     bot("Disculpa, mi creador aún me está educando para poder comprender todo");
     setTimeout(() => menu(), 600);
@@ -520,11 +581,13 @@ function responder(t){
 
   else if(t==="1"){
     bot("🕒 Horario de atención en ventanilla: 9:00 am - 12:30 pm y 4:00 pm - 6:00 pm");
+    contextoGlobal = "ventanilla";
     opciones();
   }
 
   else if(t==="2"){
     bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113");
+    contextoGlobal = "secretaria";
     opciones();
   }
 
@@ -543,6 +606,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 ✓ Lunes a viernes: 7:00 a.m. - 9:00 p.m.<br>
 ✓ Sábados: 7:00 a.m. - 1:00 p.m.<br>
 ✓ Máximo 4 horas por grupo`);
+    contextoGlobal = "salas";
     opciones();
   }
 
@@ -559,6 +623,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     b2.innerHTML="📅 Calendario Académico PDF";
     b2.onclick=()=>window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQAdJf7wjXsIRIHlr_2phXDQAW8NxF2VNk6DrKX2avNOo-8?e=RW95nO","_blank");
     chat.appendChild(b2);
+    contextoGlobal = "examen_general";
     opciones();
   }
 
@@ -605,6 +670,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 ✓ Cómo tramitar tu bachiller<br>
 ✓ Estado de tu diploma o título<br>
 ✓ Requisitos para sacar mi grado`);
+    contextoGlobal = "egresados";
     opciones();
   }
 
@@ -615,6 +681,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 ✓ Certificados de estudio universitarios<br>
 ✓ Constancias o historiales académicos<br>
 ✓ Carta de presentación`);
+    contextoGlobal = "documentos_oficiales";
     opciones();
   }
 
@@ -624,6 +691,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 ✓ Exámenes de convalidación<br>
 ✓ Certificados internacionales<br>
 ✓ Inscripción a otros idiomas`);
+    contextoGlobal = "idiomas_general";
     opciones();
   }
 
@@ -633,6 +701,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
 ✓ Actualización de datos (cambio de número)<br>
 ✓ Desbloqueo de correo<br>
 ✓ Problemas con mi SIGA`);
+    contextoGlobal = "mesa_ayuda";
     opciones();
   }
 
