@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bot UDEP</title>
+<title>Jarvis UDEP</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
@@ -157,7 +157,7 @@
     100% { transform: translateY(0); }
   }
 </style>
-</head>
+</head>head>
 
 <body>
 
@@ -293,8 +293,13 @@ function enviar(){
 
   // --- MOTOR COGNITIVO DE CONVERSACIÓN (SIMULACIÓN IA) ---
 
+  // Pregunta sobre el creador
+  if(texto.includes("creador") || texto.includes("creo") || texto.includes("creó") || texto.includes("dueño") || texto.includes("inventor")) {
+    bot("Mi creador es Lázaro Purizaca, estudió en UDEP como tú");
+    setTimeout(() => opciones(), 600);
+  }
   // NUEVO FLUJO: Solo Calendario y Feriados
-  if((texto.includes("calendario") || texto.includes("feriado") || texto.includes("feriados")) && !texto.includes("examen") && !texto.includes("exámenes") && !texto.includes("parcial") && !texto.includes("final")) {
+  else if((texto.includes("calendario") || texto.includes("feriado") || texto.includes("feriados")) && !texto.includes("examen") && !texto.includes("exámenes") && !texto.includes("parcial") && !texto.includes("final")) {
     bot("Perfecto. Si deseas revisar el Calendario Académico oficial para verificar las semanas lectivas, suspensiones de clases o días feriados del ciclo, aquí tienes el enlace:");
     setTimeout(() => {
       limpiar();
@@ -362,9 +367,9 @@ function enviar(){
     bot("¡Hola de nuevo! 😊 Cuéntame, ¿en qué te puedo asesorar hoy?");
     setTimeout(() => menu(), 600);
   }
-  // Otros casos
+  // Otros casos (No entiende)
   else {
-    bot("Aún estoy aprendiendo a procesar esa consulta. Por favor, intenta usar frases relacionadas con trámites de la facultad o selecciona una opción del menú:");
+    bot("Disculpa, mi creador aún me está educando para poder comprender todo");
     setTimeout(() => menu(), 600);
   }
 }
