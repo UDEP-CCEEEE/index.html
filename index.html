@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jarvis UDEP</title>
 
+<link rel="icon" href="mascota.png.jfif">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -549,7 +551,7 @@ function enviar(){
 
   // Funcionamiento de impresoras
   else if(verificar(["usar las impresoras", "usar la impresora", "imprimir", "fotocopiadora", "fotocopias", "impresiones", "como imprimo", "cómo imprimo", "saca copia", "instrucciones"])) {
-    bot("Hasta donde sé, existen un código QR y unas indicaciones pegadas en la pared, justo donde se encuentra la fotocopiadora");
+    bot("Hasta donde sé, existen un código QR and unas indicaciones pegadas en la pared, justo donde se encuentra la fotocopiadora");
     setTimeout(() => opciones(), 600);
   }
 
@@ -587,7 +589,7 @@ function enviar(){
 
   // Bloque Empatía complementario: Técnicas de estudio
   else if(verificar(["quiero estudiar mejor", "como estudio", "cómo estudio", "tips para estudiar", "no se estudiar", "tecnicas de estudio", "metodos de estudio"])) {
-    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) and descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
+    bot("¡Me encanta que quieras mejorar! Para estudiar sin quemarte, prueba la <b>Técnica Pomodoro</b>: Estudia 25 minutos con enfoque total (sin celular) y descansa 5 minutos. Repítelo 4 veces y luego date un premio de 20 minutos de descanso. ¡Evita los bloqueos!");
     setTimeout(() => opciones(), 600);
   }
 
@@ -690,7 +692,7 @@ function enviar(){
     setTimeout(() => responder("3"), 600);
   }
   else if(verificar(["falta", "faltas", "inasistencia", "inasistencias", "justificar", "justificacion", "enfermo"])) {
-    bot("Comprendo. Si has faltado a clases and necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
+    bot("Comprendo. Si has faltado a clases y necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
     setTimeout(() => responder("pdf_inasistencias"), 600);
   }
   else if(verificar(["practica", "práctica", "practicas", "convenio", "ppp", "pre profesional"])) {
@@ -799,81 +801,4 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
   /* CASOS PDF ASOCIADOS A BOTONES */
   else if(t==="pdf_practicas"){ 
     bot("📑 Abriendo documento de <b>Prácticas Pre Profesionales</b>...");
-    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/rosamaria_masias_udep_edu_pe/IQBD4NF30h_jTaPWFhqvLyjsAZ7lpxsg5GuGePn30Ixfk2Q", "_blank"); 
-    opciones(); 
-  }
-  else if(t==="pdf_inasistencias"){ 
-    bot("📑 Abriendo procedimiento de <b>Justificación de Inasistencias</b>...");
-    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQD74YrfHYSxRZexHyvXLmH4Adp_XBFqjSrqm2qm7RQAcxs?e=mbaDdV", "_blank"); 
-    opciones(); 
-  }
-  else if(t==="pdf_reclamos" || t==="hoja de reclamos pdf"){ 
-    bot("📑 Abriendo <b>Hoja de Reclamos</b>...");
-    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQApyzFylfSHT4PI6uVe40POATy9_WrsoGT8qSS2KcGM3Xk?e=47Zyzt", "_blank"); 
-    opciones(); 
-  }
-  else if(t==="pdf_clc" || t==="abrir pdf clc"){ 
-    bot("📑 Abriendo documento de <b>Presentación de CLC</b>...");
-    window.open("TU_LINK_CLC", "_blank"); 
-    opciones(); 
-  }
-  else if(t==="pdf_repro"){ 
-    bot("📑 Abriendo documento de <b>Reprogramación de Exámenes</b>...");
-    window.open("TU_LINK_REPRO", "_blank"); 
-    opciones(); 
-  }
-
-  else if(t==="egresado"){
-    bot(`🎓 <b>Oficina de Atención al Egresado</b><br><br>
-👩‍💼 Melissa Coello<br>
-📧 <b style="color:#003A8F;">melissa.coello@udep.edu.pe</b><br>
-📞 Anexo: 3109<br><br>
-✓ Cómo tramitar tu bachiller<br>
-✓ Estado de tu diploma o título<br>
-✓ Requisitos para sacar mi grado`);
-    contextoGlobal = "egresados";
-    opciones();
-  }
-  else if(t==="docs"){
-    bot(`📄 <b>Documentos Oficiales</b><br><br>
-📧 <b style="color:#003A8F;">documentos.oficiales@udep.edu.pe</b><br>
-📞 Anexo: 7060<br><br>
-✓ Certificados de estudio universitarios<br>
-✓ Constancias o historiales académicos<br>
-✓ Carta de presentación`);
-    contextoGlobal = "documentos_oficiales";
-    opciones();
-  }
-  else if(t==="idiomas"){
-    bot(`🌐 <b>Centro de Idiomas</b><br><br>
-📧 <b style="color:#003A8F;">idiomas@udep.edu.pe</b><br><br>
-✓ Exámenes de convalidación<br>
-✓ Certificados internacionales<br>
-✓ Inscripción a otros idiomas`);
-    contextoGlobal = "idiomas_general";
-    opciones();
-  }
-  else if(t==="mesa"){
-    bot(`🛠️ <b>Mesa de Ayuda</b><br><br>
-📧 <b style="color:#003A8F;">mesadeayuda@udep.edu.pe</b><br><br>
-✓ Actualización de datos (cambio de número)<br>
-✓ Desbloqueo de correo<br>
-✓ Problemas con mi SIGA`);
-    contextoGlobal = "mesa_ayuda";
-    opciones();
-  }
-  else if(t==="no"){
-    const div=document.createElement("div");
-    div.className = "msg bot despedida";
-    div.innerHTML = `<img src="mascota.png.jfif"><br><b>¡Muchas gracias, cuídate! 👋</b>`;
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
-  }
-  else {
-    bot("Escribe 'Hola' 😊");
-  }
-}
-</script>
-
-</body>
-</html>
+    window.open("https://udepoffice365ms-my.sharepoint.com/:b
