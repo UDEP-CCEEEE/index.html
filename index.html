@@ -364,6 +364,21 @@ function enviar(){
 
   // Si venían hablando de Reclamos de forma general
   if (contextoGlobal === "preguntando_reclamos") {
+    if (verificar(["no pasa mi primer", "no pasa el primer", "rechazaron mi primer", "rechazaron el primer", "como puedo hacer si no pasa", "como puedo hacer si rechazaron"])) {
+      bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["rechazan mi segundo", "rechazan el segundo", "no pasa mi segundo", "no pasa el segundo"])) {
+      bot("Debes fundamentarlo mejor ya que un segundo reclamo es más específico");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["donde veo mi segundo", "donde veo el segundo", "como puedo ver mi segundo", "como puedo ver el segundo", "ver mi segundo", "ver el segundo"])) {
+      bot("Únicamente lo puedes solicitar de manera presencial en la secretaría académica, algo importante es que no te lo puedes llevar ni tomar foto, solo mirarlo y revisarlo");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
     if (verificar(["fuera de la hora", "fuera de hora", "tarde", "plazo vencido", "vencio el plazo", "paso la hora", "fuera de plazo", "tiempo vencido"])) {
       bot("No procederá ya que son plazos establecidos.");
       setTimeout(() => opciones(), 600);
@@ -375,7 +390,7 @@ function enviar(){
       return;
     }
     if (verificar(["rechazado", "denegado", "rebound", "no pasa", "no procede", "por que"])) {
-      bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primero no pasa.");
+      bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primeiro no pasa.");
       setTimeout(() => opciones(), 600);
       return;
     }
@@ -384,8 +399,25 @@ function enviar(){
 
   // 2. INTENCIONES GENERALES (ENTRADA PRINCIPAL)
 
+  // NUEVA OPTIMIZACIÓN EXHAUSTIVA: Respuestas del Primer y Segundo Reclamo (Visualizaciones, Rechazos y Restricciones)
+  if (verificar(["no pasa mi primer reclamo", "no pasa el primer reclamo", "rechazaron mi primer reclamo", "rechazaron el primer reclamo", "si no pasa mi primer", "si rechazaron mi primer"])) {
+    bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+    contextoGlobal = "preguntando_reclamos";
+    setTimeout(() => opciones(), 600);
+  }
+  else if (verificar(["rechazan mi segundo reclamo", "rechazan el segundo reclamo", "que pasa si me rechazan mi segundo", "que pasa si me rechazan el segundo"])) {
+    bot("Debes fundamentarlo mejor ya que un segundo reclamo es más específico");
+    contextoGlobal = "preguntando_reclamos";
+    setTimeout(() => opciones(), 600);
+  }
+  else if (verificar(["como puedo ver mi segundo reclamo", "como puedo ver el segundo reclamo", "donde veo mi segundo reclamo", "donde veo el segundo reclamo", "ver mi segundo reclamo", "ver el segundo reclamo"])) {
+    bot("Únicamente lo puedes solicitar de manera presencial en la secretaría académica, algo importante es que no te lo puedes llevar ni tomar foto, solo mirarlo y revisarlo");
+    contextoGlobal = "preguntando_reclamos";
+    setTimeout(() => opciones(), 600);
+  }
+
   // MEGA OPTIMIZACIÓN: Detección exhaustiva de solicitudes de horario, apertura o atención de Secretaría Académica
-  if (verificar(["secretaria academica", "secretaría académica", "secretaria", "secretaría", "secre"]) && 
+  else if (verificar(["secretaria academica", "secretaría académica", "secretaria", "secretaría", "secre"]) && 
       verificar(["a que hora", "a qué hora", "abre", "abren", "horario", "atencion", "atención", "atienden", "atiende", "horas", "hasta que hora", "cierra", "cierran", "abierto"])) {
     bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113");
     contextoGlobal = "secretaria";
@@ -403,7 +435,7 @@ function enviar(){
     const respuestasTristeza = [
       "Lamento mucho que te sientas así... Sé que la presión en la UDEP puede llegar a ser abrumadora, pero por favor, no te rindas. Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. Estoy aquí contigo, respira hondo y vamos paso a paso. Todo va a estar bien.",
       "Sé que da muchísimo miedo ver un panorama difícil y sentir que las cosas van a salir mal, pero un tropiezo es solo parte del camino. No dejes que la frustración de hoy te haga dudar de tu talento. Date un respiro, lávate la cara y recuerda que eres más fuerte que cualquier nota baja.",
-      "Es completamente válido sentirse triste o deprimido cuando las cosas se ponen cuesta arriba, la vida universitaria pesa un montón a veces. Pero una mala nota no borra todo tu esfuerzo. No cargues con todo esto a solas; enfócate en lo que puedes controlar hoy and avanza a tu propio ritmo. Confío en ti."
+      "Es completamente válido sentirse triste o deprimido cuando las cosas se ponen cuesta arriba, la vida universitaria pesa un montón a veces. Pero una mala nota no borra todo tu esfuerzo. No cargues con todo esto a solas; enfócate en lo que puedes controlar hoy y avanza a tu propio ritmo. Confío en ti."
     ];
     const respuestaAleatoria = respuestasTristeza[Math.floor(Math.random() * respuestasTristeza.length)];
     bot(respuestaAleatoria);
@@ -464,12 +496,6 @@ function enviar(){
   // Bloque Empatía: Ya no rindo más
   else if(verificar(["no voy a rendir mas", "no voy a rendir más", "ya no puedo mas", "ya no puedo más", "no rindo", "cabeza va a explotar", "quiero tirar la toalla"])) {
     bot("Si sientes que tu cabeza va a explotar, es tu cuerpo pidiéndote un descanso. Estudiar bloqueado no te ayudará a memorizar. Deja los apuntes por 15 minutos, estira los brazos, toma agua y despeja la mente. Tu salud mental es lo primero.");
-    setTimeout(() => opciones(), 600);
-  }
-
-  // Bloque Empatía: Esto no es lo mío
-  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equivoque de carrera", "me equivoqué de carrera", "no sirvo para esto", "odio mi carrera"])) {
-    bot("Es super normal dudar de la carrera, sobre todo en las semanas más difíciles del ciclo. A veces el estrés nos hace creer que no servimos para esto. Si sientes que de verdad no es lo tuyo, recuerda que en la UDEP puedes pedir una cita de orientación vocacional. No tiene nada de malo cambiar de rumbo para buscar tu felicidad.");
     setTimeout(() => opciones(), 600);
   }
 
