@@ -356,7 +356,7 @@ function enviar(){
     if (verificar(["primer", "1er"]) && verificar(["no pasa", "rechaza", "denega", "rebot", "no proced"])) {
       bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primero no pasa.");
       botonesContextuales([
-        { texto: "📝 ¿Cómo apelar / Hacer 2do Reclamo?", valor: "como hacer un segundo reclamo" },
+        { texto: "📝 ¿Cómo hacer un segundo reclamo?", valor: "como hacer un segundo reclamo" },
         { texto: "📂 Ir al menú de Reclamos", valor: "reclamos" }
       ]);
       return;
@@ -376,7 +376,7 @@ function enviar(){
       setTimeout(() => opciones(), 600);
       return;
     }
-    if (verificar(["segundo", "segundo reclamo", "2do", "apelacion", "apelar"])) {
+    if (verificar(["segundo", "segundo reclamo", "2do", "apelacion", "apelar", "gestion", "gestión", "procedimiento"])) {
       bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
       botonesContextuales([
         { texto: "👁️ ¿Cómo ver mi 2do Reclamo?", valor: "como puedo ver mi segundo reclamo" },
@@ -447,8 +447,17 @@ function enviar(){
     bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primero no pasa.");
     contextoGlobal = "preguntando_reclamos";
     botonesContextuales([
-      { texto: "📝 ¿Cómo apelar / Hacer 2do Reclamo?", valor: "como hacer un segundo reclamo" },
+      { texto: "📝 ¿Cómo hacer un segundo reclamo?", valor: "como hacer un segundo reclamo" },
       { texto: "📂 Ir al menú de Reclamos", valor: "reclamos" }
+    ]);
+  }
+  // CORRECCIÓN DE FLUJO: Cómo hacer o presentar el Segundo Reclamo (Se evalúa antes de la visualización para evitar cruces)
+  else if (verificar(["como", "cómo", "presentar", "hacer", "gestion", "gestión"]) && verificar(["segundo", "2do"]) && verificar(["reclamo"])) {
+    bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+    contextoGlobal = "preguntando_reclamos";
+    botonesContextuales([
+      { texto: "👁️ ¿Cómo ver mi 2do Reclamo?", valor: "como puedo ver mi segundo reclamo" },
+      { texto: "❓ ¿Qué pasa si lo rechazan?", valor: "que pasa si me rechazan mi segundo reclamo" }
     ]);
   }
   // FILTRO ULTRA ESPECÍFICO: Rechazos de Segundo Reclamo
@@ -458,7 +467,7 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
   // FILTRO ULTRA ESPECÍFICO: Cómo y Dónde visualizar el Segundo Reclamo
-  else if (verificar(["segundo", "2do"]) && verificar(["donde", "como", "cómo", "ver", "revisar", "solicitar", "visuali"]) && verificar(["reclamo"])) {
+  else if (verificar(["segundo", "2do"]) && verificar(["donde", "ver", "revisar", "solicitar", "visuali"]) && verificar(["reclamo"])) {
     bot("Únicamente lo puedes solicitar de manera presencial en la secretaría académica, algo importante es que no te lo puedes llevar ni tomar foto, solo mirarlo y revisarlo");
     contextoGlobal = "preguntando_reclamos";
     setTimeout(() => opciones(), 600);
@@ -530,16 +539,6 @@ function enviar(){
     bot("Depende, si es por salud puedes justificarlo a través de SIGA en la parte de “trámites” y si fue por un descuido, simplemente lo pierdes y lo anulas, debes de tener cuidado y estudiar mucho.");
     contextoGlobal = "examen_tarde";
     setTimeout(() => opciones(), 600);
-  }
-
-  // Entrada Directa: Cómo hacer un segundo reclamo
-  else if(verificar(["como hacer un segundo reclamo", "cómo hacer un segundo reclamo", "hacer segundo reclamo", "presentar segundo reclamo", "2do reclamo"])) {
-    bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
-    contextoGlobal = "preguntando_reclamos";
-    botonesContextuales([
-      { texto: "👁️ ¿Cómo ver mi 2do Reclamo?", valor: "como puedo ver mi segundo reclamo" },
-      { texto: "❓ ¿Qué pasa si lo rechazan?", valor: "que pasa si me rechazan mi segundo reclamo" }
-    ]);
   }
 
   // Bloque Empatía: Ya no rindo más
