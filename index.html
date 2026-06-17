@@ -298,8 +298,40 @@ function enviar(){
   // --- MOTOR COGNITIVO DE CONVERSACIÓN CON MEMORIA DE CONTEXTO ---
   const verificar = (lista) => lista.some(palabra => texto.includes(palabra));
 
-  // 1. EVALUACIÓN DE CONTEXTOS ACTIVOS (MEMORIA)
-  
+  // 1. EVALUACIÓN DE CONTEXTOS ACTIVOS (MEMORIA REORGANIZADA DE RECLAMOS)
+  if (contextoGlobal === "preguntando_reclamos") {
+    if (verificar(["primer", "1er"]) && verificar(["no pasa", "rechaza", "denega", "rebot", "no proced"])) {
+      bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["segundo", "2do"]) && verificar(["rechaza", "no pasa", "denega", "rebot", "no proced"])) {
+      bot("Debes fundamentarlo mejor ya que un segundo reclamo es más específico");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["segundo", "2do"]) && verificar(["donde", "como", "cómo", "ver", "revisar", "solicitar", "visuali"])) {
+      bot("Únicamente lo puedes solicitar de manera presencial en la secretaría académica, algo importante es que no te lo puedes llevar ni tomar foto, solo mirarlo y revisarlo");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["fuera de la hora", "fuera de hora", "tarde", "plazo vencido", "vencio el plazo", "paso la hora", "fuera de plazo", "tiempo vencido"])) {
+      bot("No procederá ya que son plazos establecidos.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["segundo", "segundo reclamo", "2do", "apelacion", "apelar"])) {
+      bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+    if (verificar(["rechazado", "denegado", "rebound", "no pasa", "no procede", "por que"])) {
+      bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primero no pasa.");
+      setTimeout(() => opciones(), 600);
+      return;
+    }
+  }
+
   // Si venían hablando de Horarios
   if (contextoGlobal === "preguntando_horario") {
     if (verificar(["secretaria", "secretaría", "secre"])) {
@@ -362,61 +394,29 @@ function enviar(){
     }
   }
 
-  // Si venían hablando de Reclamos de forma general
-  if (contextoGlobal === "preguntando_reclamos") {
-    if (verificar(["no pasa mi primer", "no pasa el primer", "rechazaron mi primer", "rechazaron el primer", "como puedo hacer si no pasa", "como puedo hacer si rechazaron"])) {
-      bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
-      setTimeout(() => opciones(), 600);
-      return;
-    }
-    if (verificar(["rechazan mi segundo", "rechazan el segundo", "no pasa mi segundo", "no pasa el segundo"])) {
-      bot("Debes fundamentarlo mejor ya que un segundo reclamo es más específico");
-      setTimeout(() => opciones(), 600);
-      return;
-    }
-    if (verificar(["donde veo mi segundo", "donde veo el segundo", "como puedo ver mi segundo", "como puedo ver el segundo", "ver mi segundo", "ver el segundo"])) {
-      bot("Únicamente lo puedes solicitar de manera presencial en la secretaría académica, algo importante es que no te lo puedes llevar ni tomar foto, solo mirarlo y revisarlo");
-      setTimeout(() => opciones(), 600);
-      return;
-    }
-    if (verificar(["fuera de la hora", "fuera de hora", "tarde", "plazo vencido", "vencio el plazo", "paso la hora", "fuera de plazo", "tiempo vencido"])) {
-      bot("No procederá ya que son plazos establecidos.");
-      setTimeout(() => opciones(), 600);
-      return;
-    }
-    if (verificar(["segundo", "segundo reclamo", "2do", "apelacion", "apelar"])) {
-      bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
-      setTimeout(() => opciones(), 600);
-      return;
-    }
-    if (verificar(["rechazado", "denegado", "rebound", "no pasa", "no procede", "por que"])) {
-      bot("Existen varios motivos, pero el común es que no fundamentaste bien, lamentablemente no podrás presentar otro reclamo o un segundo reclamo ya que el primeiro no pasa.");
-      setTimeout(() => opciones(), 600);
-      return;
-    }
-  }
 
+  // 2. INTENCIONES GENERALES CRÍTICAS (EVALUACIÓN ESPECÍFICA PRIMERO)
 
-  // 2. INTENCIONES GENERALES (ENTRADA PRINCIPAL)
-
-  // NUEVA OPTIMIZACIÓN EXHAUSTIVA: Respuestas del Primer y Segundo Reclamo (Visualizaciones, Rechazos y Restricciones)
-  if (verificar(["no pasa mi primer reclamo", "no pasa el primer reclamo", "rechazaron mi primer reclamo", "rechazaron el primer reclamo", "si no pasa mi primer", "si rechazaron mi primer"])) {
+  // FILTRO ULTRA ESPECÍFICO: Rechazos de Primer Reclamo (Previene el bloqueo del if genérico)
+  if (verificar(["primer", "1er"]) && verificar(["no pasa", "rechaza", "denega", "rebot", "no proced"]) && verificar(["reclamo"])) {
     bot("En ventanilla de secretaría académica hay una guía para hacer el segundo reclamo, pero te adelanto algo importante, los segundos reclamos se presentan únicamente en ventanilla, no en el buzón.");
     contextoGlobal = "preguntando_reclamos";
     setTimeout(() => opciones(), 600);
   }
-  else if (verificar(["rechazan mi segundo reclamo", "rechazan el segundo reclamo", "que pasa si me rechazan mi segundo", "que pasa si me rechazan el segundo"])) {
+  // FILTRO ULTRA ESPECÍFICO: Rechazos de Segundo Reclamo
+  else if (verificar(["segundo", "2do"]) && verificar(["rechaza", "no pasa", "denega", "rebot", "no proced"]) && verificar(["reclamo"])) {
     bot("Debes fundamentarlo mejor ya que un segundo reclamo es más específico");
     contextoGlobal = "preguntando_reclamos";
     setTimeout(() => opciones(), 600);
   }
-  else if (verificar(["como puedo ver mi segundo reclamo", "como puedo ver el segundo reclamo", "donde veo mi segundo reclamo", "donde veo el segundo reclamo", "ver mi segundo reclamo", "ver el segundo reclamo"])) {
+  // FILTRO ULTRA ESPECÍFICO: Cómo y Dónde visualizar el Segundo Reclamo
+  else if (verificar(["segundo", "2do"]) && verificar(["donde", "como", "cómo", "ver", "revisar", "solicitar", "visuali"]) && verificar(["reclamo"])) {
     bot("Únicamente lo puedes solicitar de manera presencial en la secretaría académica, algo importante es que no te lo puedes llevar ni tomar foto, solo mirarlo y revisarlo");
     contextoGlobal = "preguntando_reclamos";
     setTimeout(() => opciones(), 600);
   }
 
-  // MEGA OPTIMIZACIÓN: Detección exhaustiva de solicitudes de horario, apertura o atención de Secretaría Académica
+  // MEGA OPTIMIZACIÓN SECRETARÍA: Solicitudes de horario, apertura o atención de Secretaría Académica
   else if (verificar(["secretaria academica", "secretaría académica", "secretaria", "secretaría", "secre"]) && 
       verificar(["a que hora", "a qué hora", "abre", "abren", "horario", "atencion", "atención", "atienden", "atiende", "horas", "hasta que hora", "cierra", "cierran", "abierto"])) {
     bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113");
@@ -499,6 +499,12 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
+  // Bloque Empatía: Esto no es lo mío
+  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equivoque de carrera", "me equivoqué de carrera", "no sirvo para esto", "odio mi carrera"])) {
+    bot("Es super normal dudar de la carrera, sobre todo en las semanas más difíciles del ciclo. A veces el estrés nos hace creer que no servimos para esto. Si sientes que de verdad no es lo tuyo, recuerda que en la UDEP puedes pedir una cita de orientación vocacional. No tiene nada de malo cambiar de rumbo para buscar tu felicidad.");
+    setTimeout(() => opciones(), 600);
+  }
+
   // Bloque Empatía: Estar tranquila / Ayúdame de emergencia
   else if(verificar(["ayudame a estar tranquila", "ayúdame a estar tranquila", "ayudame a calmarme", "ayúdame a calmarme", "ayudame", "ayúdame"])) {
     bot("Estoy aquí contigo. Vamos a calmarnos juntos: cierra los ojos, toma aire por la nariz lentamente durante 4 segundos... mantenlo por 4 segundos... y suéltalo por la boca en 4 segundos. Un examen es importante, pero tu paz mental lo es muchísimo más. Todo va a estar bien.");
@@ -566,7 +572,7 @@ function enviar(){
     contextoGlobal = "preguntando_horario"; 
   }
 
-  // Entrada Directa: Conversación sobre Reclamos General
+  // Entrada Directa POSTERGADA: Conversación sobre Reclamos General (Ahora se evalúa al final de Reclamos)
   else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia"])) {
     bot("¿Deseas abrir el formato de la Hoja de Reclamos, saber qué pasa si estás fuera de plazo o cómo gestionar un segundo reclamo?");
     contextoGlobal = "preguntando_reclamos";
