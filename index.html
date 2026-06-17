@@ -439,13 +439,13 @@ function enviar(){
     }
   }
 
-  // Si venían hablando de Idiomas de forma general
+  // SOLUCIÓN AL BUCLE DE IDIOMAS: Si venían hablando de Idiomas y responden a la pregunta de filtro
   if (contextoGlobal === "preguntando_idiomas") {
     if (verificar(["clc", "pdf", "documento", "guia", "guía", "acreditar"])) {
       responder("pdf_clc");
       return;
     }
-    if (verificar(["contacto", "correo", "mail", "escribir", "general", "matricula"])) {
+    if (verificar(["contacto", "correo", "mail", "escribir", "general", "matricula", "informacion", "información", "centro", "idiomas", "atencion", "atención"])) {
       responder("idiomas");
       return;
     }
@@ -553,7 +553,7 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
-  // Tolerancia de exámenes
+  // Tolerancia oficial de exámenes
   else if(verificar(["tiempo de tolerancia", "minutos de tolerancia", "tolerancia hay", "tolerancia examen", "cuanto de tolerancia", "cuánto de tolerancia", "minutos tarde puedo llegar"])) {
     bot("Según el RFAG, solo existen 15 minutos de tolerancia después de iniciar el examen, o sea que si empieza a las 2:00 p.m, entonces hay tolerancia de 2:15 p.m. (lo encuentras en el artículo 37 inciso 37.2)");
     contextoGlobal = "examen_tolerancia";
@@ -655,6 +655,16 @@ function enviar(){
     ]);
   }
 
+  // FLUJO DE IDIOMAS OPTIMIZADO: Agrega botones contextuales fluidos para guiar la conversación
+  else if(verificar(["idioma", "idiomas", "ingles", "inglés", "convalidar", "centro de idiomas", "clc"])) {
+    bot("¿Deseas información general del Centro de Idiomas o abrir el PDF de presentación del CLC?");
+    contextoGlobal = "preguntando_idiomas";
+    botonesContextuales([
+      { texto: "🌐 Información General", valor: "información del centro de idiomas" },
+      { texto: "📑 Presentación del CLC (PDF)", valor: "abrir pdf clc" }
+    ]);
+  }
+
   // Disparador general de Reclamos (Colocado estratégicamente al final para evitar intercepciones)
   else if(verificar(["reclamo", "reclamos", "queja", "quejas", "reclamar", "sugerencia"])) {
     bot("¿Deseas abrir el formato de la Hoja de Reclamos, saber qué pasa si estás fuera de plazo o cómo gestionar un segundo reclamo?");
@@ -680,7 +690,7 @@ function enviar(){
     setTimeout(() => responder("3"), 600);
   }
   else if(verificar(["falta", "faltas", "inasistencia", "inasistencias", "justificar", "justificacion", "enfermo"])) {
-    bot("Comprendo. Si has faltado a clases y necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
+    bot("Comprendo. Si has faltado a clases and necesitas presentar un justificante, aquí tienes el procedimiento oficial:");
     setTimeout(() => responder("pdf_inasistencias"), 600);
   }
   else if(verificar(["practica", "práctica", "practicas", "convenio", "ppp", "pre profesional"])) {
@@ -690,10 +700,6 @@ function enviar(){
   else if(verificar(["reprogramacion", "reprogramación", "reprogramar", "extemporaneo", "rezagado"])) {
     bot("Comprendo. Si no pudiste rendir un examen y requieres gestionar una reprogramación oficial, aquí tienes el enlace directo:");
     setTimeout(() => responder("pdf_repro"), 600);
-  }
-  else if(verificar(["idioma", "idiomas", "ingles", "inglés", "convalidar", "centro de idiomas", "clc"])) {
-    bot("¿Deseas información general del Centro de Idiomas o abrir el PDF de presentación del CLC?");
-    contextoGlobal = "preguntando_idiomas";
   }
   else if(verificar(["ayuda", "mesa", "siga", "contraseña", "correo", "usuario", "bloqueo", "acceso"])) {
     bot("Entendido el inconveniente. Si tienes problemas de acceso con tu cuenta, correo institucional o la plataforma SIGA, comunícate con la Mesa de Ayuda:");
@@ -806,7 +812,7 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQApyzFylfSHT4PI6uVe40POATy9_WrsoGT8qSS2KcGM3Xk?e=47Zyzt", "_blank"); 
     opciones(); 
   }
-  else if(t==="pdf_clc"){ 
+  else if(t==="pdf_clc" || t==="abrir pdf clc"){ 
     bot("📑 Abriendo documento de <b>Presentación de CLC</b>...");
     window.open("TU_LINK_CLC", "_blank"); 
     opciones(); 
