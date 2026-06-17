@@ -384,21 +384,27 @@ function enviar(){
 
   // 2. INTENCIONES GENERALES (ENTRADA PRINCIPAL)
 
+  // MEGA OPTIMIZACIÓN: Detección exhaustiva de solicitudes de horario, apertura o atención de Secretaría Académica
+  if (verificar(["secretaria academica", "secretaría académica", "secretaria", "secretaría", "secre"]) && 
+      verificar(["a que hora", "a qué hora", "abre", "abren", "horario", "atencion", "atención", "atienden", "atiende", "horas", "hasta que hora", "cierra", "cierran", "abierto"])) {
+    bot("🕒 Horario de atención en secretaría: 10:00 am - 12:30 pm y 4:10 pm - 5:30 pm<br>📞 Anexo: 3113");
+    contextoGlobal = "secretaria";
+    setTimeout(() => opciones(), 600);
+  }
+
   // OPTIMIZACIÓN PRIORITARIA: Entrada Directa de Reclamos Fuera de Hora o Plazo Vencido
-  if(verificar(["fuera de la hora", "fuera de hora", "fuera de plazo", "plazo vencido", "vencio el plazo", "venció el plazo", "reclamar tarde", "reclamo tarde", "se me paso el plazo", "se me pasó el plazo", "tiempo vencido"])) {
+  else if(verificar(["fuera de la hora", "fuera de hora", "fuera de plazo", "plazo vencido", "vencio el plazo", "venció el plazo", "reclamar tarde", "reclamo tarde", "se me paso el plazo", "se me pasó el plazo", "tiempo vencido"])) {
     bot("No procederá ya que son plazos establecidos.");
     setTimeout(() => opciones(), 600);
   }
 
   // NUEVA OPTIMIZACIÓN EMOCIONAL EXHAUSTIVA: Tristeza, Presión, Miedo extremo a jalar, bajón
   else if(verificar(["triste", "distre", "presionado", "presionada", "deprimido", "deprimida", "bajon", "bajón", "bajoneado", "bajoneada", "mal escenario", "no se que hacer si jalo", "no sé qué hacer si jalo", "creo que me ira mal", "creo que me irá mal", "tengo miedo de jalar", "tengo miedo a jalar", "voy a jalar"])) {
-    // Arreglo de respuestas alternativas y empáticas para que Jarvis rote sus mensajes
     const respuestasTristeza = [
       "Lamento mucho que te sientas así... Sé que la presión en la UDEP puede llegar a ser abrumadora, pero por favor, no te rindas. Jalar un examen o incluso un curso no define tu inteligencia ni tu futuro. Estoy aquí contigo, respira hondo y vamos paso a paso. Todo va a estar bien.",
       "Sé que da muchísimo miedo ver un panorama difícil y sentir que las cosas van a salir mal, pero un tropiezo es solo parte del camino. No dejes que la frustración de hoy te haga dudar de tu talento. Date un respiro, lávate la cara y recuerda que eres más fuerte que cualquier nota baja.",
-      "Es completamente válido sentirse triste o deprimido cuando las cosas se ponen cuesta arriba, la vida universitaria pesa un montón a veces. Pero una mala nota no borra todo tu esfuerzo. No cargues con todo esto a solas; enfócate en lo que puedes controlar hoy y avanza a tu propio ritmo. Confío en ti."
+      "Es completamente válido sentirse triste o deprimido cuando las cosas se ponen cuesta arriba, la vida universitaria pesa un montón a veces. Pero una mala nota no borra todo tu esfuerzo. No cargues con todo esto a solas; enfócate en lo que puedes controlar hoy and avanza a tu propio ritmo. Confío en ti."
     ];
-    // Selección aleatoria del mensaje
     const respuestaAleatoria = respuestasTristeza[Math.floor(Math.random() * respuestasTristeza.length)];
     bot(respuestaAleatoria);
     setTimeout(() => opciones(), 600);
