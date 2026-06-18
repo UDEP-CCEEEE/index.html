@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jarvis UDEP</title>
 
+<!-- ICONO DE LA PESTAÑA PERSONALIZADO CON LA MASCOTA -->
 <link rel="icon" href="mascota.png.jfif">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
@@ -322,7 +323,9 @@ function menuTramites(){
   btn("2 Certificados / Documentos","docs");
   btn("3 Idiomas","idiomas");
   btn("4 Mesa de ayuda","mesa");
-  btn("5 Volver al inicio","si");
+  btn("5 Cambio de Carrera","cambio_carrera");
+  btn("6 Retiro de Curso / Carrera","retiro_curso");
+  btn("7 Volver al inicio","si");
 }
 
 function menuGuias(){
@@ -593,6 +596,14 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
+  // Disparadores Directos para los Nuevos Trámites (Cambio de carrera y Retiro)
+  else if(verificar(["cambio de carrera", "cambiar de carrera", "cambiarme de carrera", "cambio carrera"])) {
+    setTimeout(() => responder("cambio_carrera"), 600);
+  }
+  else if(verificar(["retiro de curso", "retiro de carrera", "retirar curso", "retirar un curso", "retirarme de un curso", "retiro curso"])) {
+    setTimeout(() => responder("retiro_curso"), 600);
+  }
+
   // Casos de Correos Directos
   else if(verificar(["correo", "mail", "email", "escribir a", "contacto de"])) {
     if(verificar(["secretaria", "secretaría", "academica", "académica", "secre"])) {
@@ -815,14 +826,23 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     opciones(); 
   }
   else if(t==="pdf_clc" || t==="abrir pdf clc"){ 
-    bot("📑 Abriendo documento de <b>Presentación de CLC</b>...");
-    window.open("TU_LINK_CLC", "_blank"); 
+    bot("📢 <b>Comunicado Oficial CLC:</b><br>Para convalidar o registrar tu CLC, tienes que estar atento a los avisos de SIGA y CANVAS, ahí se establecen fechas fijas donde puedes presentar :)"); 
     opciones(); 
   }
   else if(t==="pdf_repro"){ 
     bot("📑 Abriendo documento de <b>Reprogramación de Exámenes</b>...");
-    window.open("TU_LINK_REPRO", "_blank"); 
+    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQDVIEWE_E86QYQnR95mGdklAelvUof1yBpGsEASJy3Jpsg?e=1pB4TL", "_blank"); 
     opciones(); 
+  }
+
+  /* NUEVOS CASOS DE TRÁMITES */
+  else if(t==="cambio_carrera"){
+    bot("📣 <b>Comunicado Cambio de Carrera:</b><br>Para solicitar un cambio de carrera, es necesario mandar un correo a secretaría académica para obtener todo de manera detallada y precisa.");
+    opciones();
+  }
+  else if(t==="retiro_curso"){
+    bot("📣 <b>Comunicado Retiro de Curso / Carrera:</b><br>Los retiros se hacen a través del SIGA, en la parte de trámites, para tener más información puedes mandar un correo a secretaría académica :)");
+    opciones();
   }
 
   else if(t==="egresado"){
