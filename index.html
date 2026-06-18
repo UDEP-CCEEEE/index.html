@@ -336,7 +336,8 @@ function menuGuias(){
   btn("3 Justificación de Inasistencias", "pdf_inasistencias");
   btn("4 Reprogramación de Exámenes", "pdf_repro");
   btn("5 Hoja de Reclamos", "pdf_reclamos");
-  btn("6 Volver al inicio", "si");
+  btn("6 Reglamento General (RFAG)", "pdf_rfag");
+  btn("7 Volver al inicio", "si");
 }
 
 function opciones(){
@@ -596,12 +597,17 @@ function enviar(){
     setTimeout(() => opciones(), 600);
   }
 
-  // Disparadores Directos para los Nuevos Trámites (Cambio de carrera y Retiro)
+  // Disparadores Directos para los Trámites (Cambio de carrera y Retiro)
   else if(verificar(["cambio de carrera", "cambiar de carrera", "cambiarme de carrera", "cambio carrera"])) {
     setTimeout(() => responder("cambio_carrera"), 600);
   }
   else if(verificar(["retiro de curso", "retiro de carrera", "retirar curso", "retirar un curso", "retirarme de un curso", "retiro curso"])) {
     setTimeout(() => responder("retiro_curso"), 600);
+  }
+
+  // Reglamento General / RFAG
+  else if(verificar(["reglamento", "rfag", "normativa", "reglamento general", "reglamento udep"])) {
+    setTimeout(() => responder("pdf_rfag"), 600);
   }
 
   // Casos de Correos Directos
@@ -834,8 +840,13 @@ Las reservas deben ser solicitadas a través del correo Udep del alumno:<br>
     window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQDVIEWE_E86QYQnR95mGdklAelvUof1yBpGsEASJy3Jpsg?e=1pB4TL", "_blank"); 
     opciones(); 
   }
+  else if(t==="pdf_rfag"){ 
+    bot("📑 Abriendo <b>Reglamento General (RFAG) de la UDEP</b>...");
+    window.open("https://udepoffice365ms-my.sharepoint.com/:b:/g/personal/lazaro_purizaca_g_udep_edu_pe/IQD2Bdh1K4taQLBEopwA3SHpAXL9Vbua01jwbjK-R8dcClA?e=b5joDQ", "_blank"); 
+    opciones(); 
+  }
 
-  /* NUEVOS CASOS DE TRÁMITES */
+  /* CASOS DE TRÁMITES */
   else if(t==="cambio_carrera"){
     bot("📣 <b>Comunicado Cambio de Carrera:</b><br>Para solicitar un cambio de carrera, es necesario mandar un correo a secretaría académica para obtener todo de manera detallada y precisa.");
     opciones();
