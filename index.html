@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jarvis UDEP</title>
 
-<!-- ICONO DE LA PESTAÑA PERSONALIZADO CON LA MASCOTA -->
 <link rel="icon" href="mascota.png.jfif">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
@@ -262,17 +261,31 @@ function limpiarContextuales() {
 
 function bienvenida(){
   const div=document.createElement("div");
-  div.className="msg bot";
+  div.className="msg bot despedida";
+  div.style.maxWidth = "85%";
+  div.style.margin = "20px auto";
   div.innerHTML = `
-    <div style="text-align:center">
-      <img src="mascota.png.jfif" style="width:120px; border-radius:12px; margin-bottom:10px;">
-      <br>
-      <b>Hola, soy Jarvis 👋</b><br>
-      ¿En qué puedo ayudarte?
-    </div>
+    <img src="mascota.png.jfif" style="width:120px; border-radius:12px; margin-bottom:10px;">
+    <br>
+    <b>Hola, me tomé un descanso, pero nos volveremos a ver algún día. 👋</b><br><br>
+    Gracias por formar parte de esta iniciativa, estudia mucho y hasta luego.
+    <div class="time">${hora()}</div>
   `;
   chat.appendChild(div);
-  menu();
+
+  // Deshabilitar entrada de texto y botón para congelar funciones
+  const inputEl = document.getElementById("input");
+  const btnEl = document.querySelector(".send-btn");
+  if(inputEl) {
+    inputEl.value = "";
+    inputEl.placeholder = "Jarvis en pausa...";
+    inputEl.disabled = true;
+  }
+  if(btnEl) {
+    btnEl.disabled = true;
+    btnEl.style.cursor = "not-allowed";
+    btnEl.style.opacity = "0.5";
+  }
 }
 
 function btn(text,val){
@@ -580,7 +593,7 @@ function enviar(){
   }
 
   // Bloque Empatía complementario: Esto no es lo mío
-  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equivoque de carrera", "me equivoqué de carrera", "no sirvo para esto", "odio mi carrera"])) {
+  else if(verificar(["esto no es lo mio", "esto no es lo mío", "me equiveque de carrera", "me equivomé de carrera", "no sirvo para esto", "odio mi carrera"])) {
     bot("Es super normal dudar de la carrera, sobre todo en las semanas más difíciles del ciclo. A veces el estrés nos hace creer que no servimos para esto. Si sientes que de verdad no es lo tuyo, recuerda que en la UDEP puedes pedir una cita de orientación vocacional. No tiene nada de malo cambiar de rumbo para buscar tu felicidad.");
     setTimeout(() => opciones(), 600);
   }
